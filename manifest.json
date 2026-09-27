@@ -1,0 +1,10 @@
+{
+  "name": "Attendly",
+  "short_name": "Attendly",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2196F3",
+  "description": "Attendly Attendance Calendar",
+  "icons": []
+}
