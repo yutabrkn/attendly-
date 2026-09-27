@@ -92,5 +92,12 @@ function closeModal(){document.getElementById('modal').classList.remove('show')}
 function markToday(){view=new Date();render();openModal(key(new Date()))}
 render();
 </script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js");
+  });
+}
+</script>
 </body>
 </html>
