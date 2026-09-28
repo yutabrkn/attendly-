@@ -21,18 +21,18 @@
   --card:#ffffff;
   --text:#172033;
   --muted:#758096;
-  --line:#e2e7ef;
-  --green:#20b26b;
-  --red:#ef5350;
-  --orange:#ff9800;
-  --purple:#8e5cf6;
+  --line:#e1e6ee;
+  --green:#20a968;
+  --red:#e94b4b;
+  --orange:#f59e0b;
+  --purple:#805ad5;
   --shadow:0 8px 25px rgba(0,0,0,.08);
 }
 
 body.dark{
   --bg:#10131a;
   --card:#181d27;
-  --text:#f3f5f8;
+  --text:#f4f6fa;
   --muted:#9ba6b8;
   --line:#2b3342;
   --shadow:0 8px 25px rgba(0,0,0,.3);
@@ -43,7 +43,6 @@ body{
   font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
-  transition:.2s;
 }
 
 /* TOP BAR */
@@ -55,7 +54,7 @@ body{
   display:flex;
   align-items:center;
   padding:0 15px;
-  gap:15px;
+  gap:14px;
   position:sticky;
   top:0;
   z-index:100;
@@ -81,33 +80,38 @@ body{
 /* SIDEBAR */
 
 .overlay{
-  display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.45);
-  z-index:199;
+  background:rgba(0,0,0,.5);
+  z-index:190;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
 }
 
 .overlay.show{
-  display:block;
+  opacity:1;
+  visibility:visible;
 }
 
 .sidebar{
   position:fixed;
   top:0;
-  left:-310px;
+  left:0;
   width:300px;
+  max-width:85vw;
   height:100vh;
   background:var(--card);
   z-index:200;
   padding:20px;
   overflow-y:auto;
-  transition:.25s ease;
-  box-shadow:8px 0 30px rgba(0,0,0,.15);
+  transform:translateX(-100%);
+  transition:transform .25s ease;
+  box-shadow:8px 0 30px rgba(0,0,0,.2);
 }
 
 .sidebar.open{
-  left:0;
+  transform:translateX(0);
 }
 
 .side-header{
@@ -118,18 +122,19 @@ body{
 }
 
 .side-title{
-  font-size:22px;
+  font-size:23px;
   font-weight:800;
 }
 
 .close-btn{
-  border:0;
-  background:var(--bg);
-  color:var(--text);
   width:38px;
   height:38px;
+  border:0;
   border-radius:10px;
-  font-size:22px;
+  background:var(--bg);
+  color:var(--text);
+  font-size:24px;
+  cursor:pointer;
 }
 
 /* PROFILE */
@@ -181,6 +186,7 @@ body{
 }
 
 .photo-btn{
+  width:100%;
   border:0;
   border-radius:8px;
   padding:8px;
@@ -192,7 +198,7 @@ body{
 
 .remove-btn{
   background:#ffe8e8;
-  color:#d93030;
+  color:#d52f2f;
 }
 
 .profile-label{
@@ -211,10 +217,6 @@ body{
   color:var(--text);
   outline:none;
   font-size:15px;
-}
-
-.name-input:focus{
-  border-color:var(--primary);
 }
 
 .save-profile{
@@ -258,8 +260,8 @@ body{
 
 .theme-left{
   display:flex;
-  gap:9px;
   align-items:center;
+  gap:9px;
 }
 
 .toggle{
@@ -273,8 +275,8 @@ body{
 .toggle-circle{
   width:18px;
   height:18px;
-  border-radius:50%;
   background:white;
+  border-radius:50%;
   transition:.2s;
 }
 
@@ -394,6 +396,7 @@ body.dark .toggle-circle{
   background:var(--bg);
   color:var(--text);
   font-size:18px;
+  cursor:pointer;
 }
 
 .weekdays,
@@ -422,11 +425,6 @@ body.dark .toggle-circle{
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  position:relative;
-}
-
-.day:hover{
-  border-color:var(--primary);
 }
 
 .day-number{
@@ -515,11 +513,11 @@ body.dark .leave{
 /* MODAL */
 
 .modal{
-  display:none;
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.5);
   z-index:500;
+  display:none;
   align-items:center;
   justify-content:center;
   padding:20px;
@@ -556,6 +554,7 @@ body.dark .leave{
   background:var(--bg);
   color:var(--text);
   font-weight:700;
+  cursor:pointer;
 }
 
 .status-buttons button.selected{
@@ -586,6 +585,7 @@ body.dark .leave{
   border:0;
   border-radius:10px;
   font-weight:800;
+  cursor:pointer;
 }
 
 .cancel{
@@ -598,9 +598,10 @@ body.dark .leave{
   color:white;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
 @media(max-width:600px){
+
   .dashboard{
     grid-template-columns:1fr 1fr;
   }
@@ -622,150 +623,256 @@ body.dark .leave{
 
 <body>
 
-<!-- OVERLAY -->
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<!-- SIDEBAR OVERLAY -->
+<div id="overlay" class="overlay"></div>
 
 <!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
+<aside id="sidebar" class="sidebar">
 
   <div class="side-header">
-    <div class="side-title">Attendly</div>
-    <button class="close-btn" onclick="closeSidebar()">×</button>
+
+    <div class="side-title">
+      Attendly
+    </div>
+
+    <button id="closeButton" class="close-btn">
+      ×
+    </button>
+
   </div>
+
+
+  <!-- PROFILE -->
 
   <div class="profile-box">
 
     <div class="profile-top">
 
-      <div class="profile-container" id="profileContainer">
+      <div id="profileContainer" class="profile-container">
         <div class="profile-placeholder">👤</div>
       </div>
 
       <div class="photo-buttons">
-        <button class="photo-btn"
-          onclick="document.getElementById('photoInput').click()">
+
+        <button id="photoButton" class="photo-btn">
           🖼️ Choose Photo
         </button>
 
-        <button class="photo-btn remove-btn"
-          onclick="removePhoto()">
+        <button id="removePhotoButton" class="photo-btn remove-btn">
           Remove
         </button>
+
       </div>
 
     </div>
+
 
     <input
       type="file"
       id="photoInput"
       accept="image/*"
       style="display:none"
-      onchange="changePhoto(event)"
     >
 
-    <div class="profile-label">YOUR NAME</div>
+
+    <div class="profile-label">
+      YOUR NAME
+    </div>
+
 
     <input
-      class="name-input"
       id="nameInput"
+      class="name-input"
       type="text"
       placeholder="Enter your name"
     >
 
-    <button class="save-profile" onclick="saveProfile()">
+
+    <button id="saveProfileButton" class="save-profile">
       💾 Save Profile
     </button>
 
-    <div class="saved-message" id="savedMessage">
+
+    <div id="savedMessage" class="saved-message">
       ✓ Profile saved
     </div>
 
   </div>
 
-  <button class="theme-toggle" onclick="toggleDarkMode()">
+
+  <!-- DARK MODE -->
+
+  <button id="themeButton" class="theme-toggle">
 
     <div class="theme-left">
+
       <span id="themeIcon">🌙</span>
-      <span id="themeText">Dark Mode</span>
+
+      <span id="themeText">
+        Dark Mode
+      </span>
+
     </div>
 
     <div class="toggle">
+
       <div class="toggle-circle"></div>
+
     </div>
 
   </button>
 
-  <div class="stat-card">
-    <div class="stat-title">TOTAL MONTHS</div>
-    <div class="stat-value" id="sideMonths">0</div>
-  </div>
+
+  <!-- STATS -->
 
   <div class="stat-card">
-    <div class="stat-title">OVERALL ATTENDANCE</div>
-    <div class="stat-value" id="sideAttendance">0%</div>
+
+    <div class="stat-title">
+      TOTAL MONTHS
+    </div>
+
+    <div id="sideMonths" class="stat-value">
+      0
+    </div>
+
   </div>
 
+
   <div class="stat-card">
-    <div class="stat-title">TOTAL MARKED DAYS</div>
-    <div class="stat-value" id="sideMarked">0</div>
+
+    <div class="stat-title">
+      OVERALL ATTENDANCE
+    </div>
+
+    <div id="sideAttendance" class="stat-value">
+      0%
+    </div>
+
+  </div>
+
+
+  <div class="stat-card">
+
+    <div class="stat-title">
+      TOTAL MARKED DAYS
+    </div>
+
+    <div id="sideMarked" class="stat-value">
+      0
+    </div>
+
   </div>
 
 </aside>
 
 
 <!-- TOP BAR -->
+
 <header class="topbar">
 
-  <button class="menu-btn" onclick="openSidebar()">☰</button>
+  <button id="menuButton" class="menu-btn">
+    ☰
+  </button>
 
-  <div class="logo">Attendly</div>
+  <div class="logo">
+    Attendly
+  </div>
 
 </header>
 
 
 <!-- MAIN -->
+
 <main class="main">
 
   <div class="welcome">
-    <h1 id="welcomeText">Attendance Calendar</h1>
-    <p>Track your attendance easily.</p>
+
+    <h1 id="welcomeText">
+      Attendance Calendar
+    </h1>
+
+    <p>
+      Track your attendance easily.
+    </p>
+
   </div>
+
+
+  <!-- DASHBOARD -->
 
   <section class="dashboard">
 
     <div class="card">
-      <div class="card-title">PRESENT</div>
-      <div class="card-number" id="presentCount">0</div>
+
+      <div class="card-title">
+        PRESENT
+      </div>
+
+      <div id="presentCount" class="card-number">
+        0
+      </div>
+
     </div>
 
-    <div class="card">
-      <div class="card-title">HALF DAY</div>
-      <div class="card-number" id="halfCount">0</div>
-    </div>
 
     <div class="card">
-      <div class="card-title">ABSENT</div>
-      <div class="card-number" id="absentCount">0</div>
+
+      <div class="card-title">
+        HALF DAY
+      </div>
+
+      <div id="halfCount" class="card-number">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        ABSENT
+      </div>
+
+      <div id="absentCount" class="card-number">
+        0
+      </div>
+
     </div>
 
   </section>
 
 
+  <!-- CALENDAR -->
+
   <section class="calendar-card">
 
     <div class="calendar-header">
 
-      <div class="month-title" id="monthTitle"></div>
+      <div id="monthTitle" class="month-title">
+      </div>
 
       <div class="nav-buttons">
-        <button onclick="previousMonth()">‹</button>
-        <button onclick="goToday()">●</button>
-        <button onclick="nextMonth()">›</button>
+
+        <button id="previousButton">
+          ‹
+        </button>
+
+        <button id="todayButton">
+          ●
+        </button>
+
+        <button id="nextButton">
+          ›
+        </button>
+
       </div>
 
     </div>
 
+
     <div class="weekdays">
+
       <div>Sun</div>
       <div>Mon</div>
       <div>Tue</div>
@@ -773,9 +880,13 @@ body.dark .leave{
       <div>Thu</div>
       <div>Fri</div>
       <div>Sat</div>
+
     </div>
 
-    <div class="days" id="days"></div>
+
+    <div id="days" class="days">
+    </div>
+
 
     <div class="legend">
 
@@ -808,31 +919,35 @@ body.dark .leave{
 
 <!-- ATTENDANCE MODAL -->
 
-<div class="modal" id="modal">
+<div id="modal" class="modal">
 
   <div class="modal-box">
 
-    <h2 id="modalDate">Attendance</h2>
+    <h2 id="modalDate">
+      Attendance
+    </h2>
+
 
     <div class="status-buttons">
 
-      <button onclick="selectStatus('present')" id="btn-present">
+      <button id="btn-present">
         ✓ Present
       </button>
 
-      <button onclick="selectStatus('half')" id="btn-half">
+      <button id="btn-half">
         ½ Half Day
       </button>
 
-      <button onclick="selectStatus('absent')" id="btn-absent">
+      <button id="btn-absent">
         ✕ Absent
       </button>
 
-      <button onclick="selectStatus('leave')" id="btn-leave">
+      <button id="btn-leave">
         ★ Leave
       </button>
 
     </div>
+
 
     <textarea
       id="remark"
@@ -840,13 +955,14 @@ body.dark .leave{
       placeholder="Add a remark..."
     ></textarea>
 
+
     <div class="modal-actions">
 
-      <button class="cancel" onclick="closeModal()">
+      <button id="cancelButton" class="cancel">
         Cancel
       </button>
 
-      <button class="save" onclick="saveAttendance()">
+      <button id="saveButton" class="save">
         Save
       </button>
 
@@ -860,120 +976,249 @@ body.dark .leave{
 <script>
 
 /* =========================
+   DATA
+========================= */
+
+let attendance = {};
+
+try{
+  attendance =
+    JSON.parse(
+      localStorage.getItem("attendly") || "{}"
+    );
+}catch(error){
+  attendance = {};
+}
+
+let selectedDate = "";
+let selectedStatus = "";
+let currentDate = new Date();
+
+
+/* =========================
    SIDEBAR
 ========================= */
 
+const sidebar =
+  document.getElementById("sidebar");
+
+const overlay =
+  document.getElementById("overlay");
+
+const menuButton =
+  document.getElementById("menuButton");
+
+const closeButton =
+  document.getElementById("closeButton");
+
+
 function openSidebar(){
-  document.getElementById("sidebar").classList.add("open");
-  document.getElementById("overlay").classList.add("show");
+
+  sidebar.classList.add("open");
+
+  overlay.classList.add("show");
+
 }
 
+
 function closeSidebar(){
-  document.getElementById("sidebar").classList.remove("open");
-  document.getElementById("overlay").classList.remove("show");
+
+  sidebar.classList.remove("open");
+
+  overlay.classList.remove("show");
+
 }
+
+
+/* IMPORTANT:
+   Sidebar buttons use addEventListener
+   instead of inline onclick. */
+
+menuButton.addEventListener(
+  "click",
+  openSidebar
+);
+
+closeButton.addEventListener(
+  "click",
+  closeSidebar
+);
+
+overlay.addEventListener(
+  "click",
+  closeSidebar
+);
 
 
 /* =========================
    PROFILE
 ========================= */
 
-let selectedPhoto = localStorage.getItem("attendly-photo") || "";
+let selectedPhoto =
+  localStorage.getItem("attendly-photo") || "";
+
+
+const profileContainer =
+  document.getElementById("profileContainer");
+
+const photoInput =
+  document.getElementById("photoInput");
+
+const nameInput =
+  document.getElementById("nameInput");
+
 
 function displayPhoto(){
 
-  const container =
-    document.getElementById("profileContainer");
-
   if(selectedPhoto){
 
-    container.innerHTML =
+    profileContainer.innerHTML =
       '<img class="profile-picture" src="' +
       selectedPhoto +
       '" alt="Profile">';
 
   }else{
 
-    container.innerHTML =
+    profileContainer.innerHTML =
       '<div class="profile-placeholder">👤</div>';
 
   }
+
 }
 
 
-function changePhoto(event){
+document
+  .getElementById("photoButton")
+  .addEventListener("click",function(){
 
-  const file = event.target.files[0];
+    photoInput.click();
 
-  if(!file) return;
+  });
 
-  const reader = new FileReader();
 
-  reader.onload = function(e){
+photoInput.addEventListener(
+  "change",
+  function(){
 
-    selectedPhoto = e.target.result;
+    const file =
+      photoInput.files[0];
+
+    if(!file) return;
+
+    const reader =
+      new FileReader();
+
+    reader.onload = function(event){
+
+      selectedPhoto =
+        event.target.result;
+
+      displayPhoto();
+
+    };
+
+    reader.readAsDataURL(file);
+
+  }
+);
+
+
+document
+  .getElementById("removePhotoButton")
+  .addEventListener("click",function(){
+
+    selectedPhoto = "";
+
+    localStorage.removeItem(
+      "attendly-photo"
+    );
+
+    photoInput.value = "";
 
     displayPhoto();
 
-  };
-
-  reader.readAsDataURL(file);
-}
+  });
 
 
-function removePhoto(){
+document
+  .getElementById("saveProfileButton")
+  .addEventListener("click",function(){
 
-  selectedPhoto = "";
+    const name =
+      nameInput.value.trim();
 
-  localStorage.removeItem("attendly-photo");
+    localStorage.setItem(
+      "attendly-name",
+      name
+    );
 
-  document.getElementById("photoInput").value = "";
+    if(selectedPhoto){
 
-  displayPhoto();
-}
+      localStorage.setItem(
+        "attendly-photo",
+        selectedPhoto
+      );
+
+    }
+
+    updateWelcome();
+
+    const message =
+      document.getElementById("savedMessage");
+
+    message.style.display = "block";
+
+    setTimeout(function(){
+
+      message.style.display = "none";
+
+    },2000);
+
+  });
 
 
-function saveProfile(){
+function updateWelcome(){
 
   const name =
-    document.getElementById("nameInput").value.trim();
+    localStorage.getItem(
+      "attendly-name"
+    ) || "";
 
-  localStorage.setItem("attendly-name", name);
+  if(name){
 
-  if(selectedPhoto){
-    localStorage.setItem("attendly-photo", selectedPhoto);
+    document
+      .getElementById("welcomeText")
+      .textContent =
+        "Hello, " + name + " 👋";
+
+  }else{
+
+    document
+      .getElementById("welcomeText")
+      .textContent =
+        "Attendance Calendar";
+
   }
 
-  document.getElementById("welcomeText").textContent =
-    name ? "Hello, " + name + " 👋" : "Attendance Calendar";
-
-  const message =
-    document.getElementById("savedMessage");
-
-  message.style.display = "block";
-
-  setTimeout(function(){
-    message.style.display = "none";
-  },2000);
 }
 
 
 function loadProfile(){
 
-  const name =
-    localStorage.getItem("attendly-name") || "";
+  nameInput.value =
+    localStorage.getItem(
+      "attendly-name"
+    ) || "";
 
   selectedPhoto =
-    localStorage.getItem("attendly-photo") || "";
-
-  document.getElementById("nameInput").value = name;
-
-  if(name){
-    document.getElementById("welcomeText").textContent =
-      "Hello, " + name + " 👋";
-  }
+    localStorage.getItem(
+      "attendly-photo"
+    ) || "";
 
   displayPhoto();
+
+  updateWelcome();
+
 }
 
 
@@ -982,52 +1227,60 @@ function loadProfile(){
 ========================= */
 
 let darkMode =
-  localStorage.getItem("attendly-dark") === "true";
+  localStorage.getItem(
+    "attendly-dark"
+  ) === "true";
 
 
 function applyDarkMode(){
 
-  document.body.classList.toggle("dark", darkMode);
-
-  if(darkMode){
-
-    document.getElementById("themeIcon").textContent = "☀️";
-    document.getElementById("themeText").textContent = "Light Mode";
-
-  }else{
-
-    document.getElementById("themeIcon").textContent = "🌙";
-    document.getElementById("themeText").textContent = "Dark Mode";
-
-  }
-}
-
-
-function toggleDarkMode(){
-
-  darkMode = !darkMode;
-
-  localStorage.setItem(
-    "attendly-dark",
+  document.body.classList.toggle(
+    "dark",
     darkMode
   );
 
-  applyDarkMode();
+  if(darkMode){
+
+    document
+      .getElementById("themeIcon")
+      .textContent = "☀️";
+
+    document
+      .getElementById("themeText")
+      .textContent = "Light Mode";
+
+  }else{
+
+    document
+      .getElementById("themeIcon")
+      .textContent = "🌙";
+
+    document
+      .getElementById("themeText")
+      .textContent = "Dark Mode";
+
+  }
+
 }
 
 
-/* =========================
-   ATTENDANCE DATA
-========================= */
+document
+  .getElementById("themeButton")
+  .addEventListener(
+    "click",
+    function(){
 
-let attendance =
-  JSON.parse(localStorage.getItem("attendly") || "{}");
+      darkMode = !darkMode;
 
-let currentDate = new Date();
+      localStorage.setItem(
+        "attendly-dark",
+        darkMode
+      );
 
-let selectedDate = "";
+      applyDarkMode();
 
-let selectedStatus = "";
+    }
+  );
 
 
 /* =========================
@@ -1036,57 +1289,100 @@ let selectedStatus = "";
 
 function renderCalendar(){
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const year =
+    currentDate.getFullYear();
+
+  const month =
+    currentDate.getMonth();
+
 
   const monthNames = [
-    "January","February","March","April",
-    "May","June","July","August",
-    "September","October","November","December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
   ];
 
-  document.getElementById("monthTitle").textContent =
-    monthNames[month] + " " + year;
 
-  const daysContainer =
+  document
+    .getElementById("monthTitle")
+    .textContent =
+      monthNames[month] +
+      " " +
+      year;
+
+
+  const days =
     document.getElementById("days");
 
-  daysContainer.innerHTML = "";
+  days.innerHTML = "";
+
 
   const firstDay =
-    new Date(year,month,1).getDay();
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
+
 
   const totalDays =
-    new Date(year,month+1,0).getDate();
+    new Date(
+      year,
+      month + 1,
+      0
+    ).getDate();
+
 
   for(let i=0;i<firstDay;i++){
 
     const empty =
       document.createElement("div");
 
-    daysContainer.appendChild(empty);
+    days.appendChild(empty);
+
   }
+
 
   for(let day=1;day<=totalDays;day++){
 
     const dateKey =
-      year + "-" +
-      String(month+1).padStart(2,"0") +
+      year +
+      "-" +
+      String(month + 1).padStart(2,"0") +
       "-" +
       String(day).padStart(2,"0");
 
-    const data = attendance[dateKey];
 
-    const dayElement =
+    const data =
+      attendance[dateKey];
+
+
+    const element =
       document.createElement("div");
 
-    dayElement.className = "day";
+    element.className = "day";
+
 
     if(data && data.status){
-      dayElement.classList.add(data.status);
+
+      element.classList.add(
+        data.status
+      );
+
     }
 
+
     let statusText = "";
+
 
     if(data){
 
@@ -1101,9 +1397,11 @@ function renderCalendar(){
 
       if(data.status === "leave")
         statusText = "Leave";
+
     }
 
-    dayElement.innerHTML =
+
+    element.innerHTML =
       '<div class="day-number">' +
       day +
       '</div>' +
@@ -1111,14 +1409,24 @@ function renderCalendar(){
       statusText +
       '</div>';
 
-    dayElement.onclick = function(){
-      openAttendance(dateKey);
-    };
 
-    daysContainer.appendChild(dayElement);
+    element.addEventListener(
+      "click",
+      function(){
+
+        openAttendance(dateKey);
+
+      }
+    );
+
+
+    days.appendChild(element);
+
   }
 
+
   updateStats();
+
 }
 
 
@@ -1126,14 +1434,14 @@ function renderCalendar(){
    ATTENDANCE MODAL
 ========================= */
 
+
 function openAttendance(dateKey){
 
   selectedDate = dateKey;
 
   const data = attendance[dateKey];
 
-  selectedStatus =
-    data ? data.status : "";
+  selectedStatus = data ? data.status : "";
 
   document.getElementById("remark").value =
     data ? (data.remark || "") : "";
@@ -1143,17 +1451,21 @@ function openAttendance(dateKey){
 
   updateSelectedButtons();
 
-  document.getElementById("modal")
-    .classList.add("show");
+  document.getElementById("modal").classList.add("show");
 }
 
 
 function closeModal(){
 
-  document.getElementById("modal")
-    .classList.remove("show");
+  document.getElementById("modal").classList.remove("show");
 
 }
+
+
+document.getElementById("cancelButton").addEventListener(
+  "click",
+  closeModal
+);
 
 
 function selectStatus(status){
@@ -1161,19 +1473,13 @@ function selectStatus(status){
   selectedStatus = status;
 
   updateSelectedButtons();
+
 }
 
 
 function updateSelectedButtons(){
 
-  const buttons = [
-    "present",
-    "half",
-    "absent",
-    "leave"
-  ];
-
-  buttons.forEach(function(status){
+  ["present","half","absent","leave"].forEach(function(status){
 
     document
       .getElementById("btn-" + status)
@@ -1183,78 +1489,215 @@ function updateSelectedButtons(){
       );
 
   });
+
 }
 
 
-function saveAttendance(){
+document.getElementById("btn-present").addEventListener(
+  "click",
+  function(){
+    selectStatus("present");
+  }
+);
 
-  if(!selectedStatus){
 
-    delete attendance[selectedDate];
+document.getElementById("btn-half").addEventListener(
+  "click",
+  function(){
+    selectStatus("half");
+  }
+);
 
-  }else{
 
-    attendance[selectedDate] = {
+document.getElementById("btn-absent").addEventListener(
+  "click",
+  function(){
+    selectStatus("absent");
+  }
+);
 
-      status:selectedStatus,
 
-      remark:
-        document.getElementById("remark").value.trim()
+document.getElementById("btn-leave").addEventListener(
+  "click",
+  function(){
+    selectStatus("leave");
+  }
+);
 
-    };
+
+document.getElementById("saveButton").addEventListener(
+  "click",
+  function(){
+
+    if(!selectedStatus){
+
+      delete attendance[selectedDate];
+
+    }else{
+
+      attendance[selectedDate] = {
+        status: selectedStatus,
+        remark: document.getElementById("remark").value.trim()
+      };
+
+    }
+
+    localStorage.setItem(
+      "attendly",
+      JSON.stringify(attendance)
+    );
+
+    closeModal();
+
+    renderCalendar();
 
   }
-
-  localStorage.setItem(
-    "attendly",
-    JSON.stringify(attendance)
-  );
-
-  closeModal();
-
-  renderCalendar();
-}
+);
 
 
-/* =========================
-   MONTH NAVIGATION
-========================= */
+/* MONTH BUTTONS */
 
-function previousMonth(){
+document.getElementById("previousButton").addEventListener(
+  "click",
+  function(){
 
-  currentDate.setMonth(
-    currentDate.getMonth()-1
-  );
+    currentDate.setMonth(
+      currentDate.getMonth() - 1
+    );
 
-  renderCalendar();
-}
+    renderCalendar();
 
-
-function nextMonth(){
-
-  currentDate.setMonth(
-    currentDate.getMonth()+1
-  );
-
-  renderCalendar();
-}
+  }
+);
 
 
-function goToday(){
+document.getElementById("nextButton").addEventListener(
+  "click",
+  function(){
 
-  currentDate = new Date();
+    currentDate.setMonth(
+      currentDate.getMonth() + 1
+    );
 
-  renderCalendar();
-}
+    renderCalendar();
+
+  }
+);
 
 
-/* =========================
-   STATISTICS
-========================= */
+document.getElementById("todayButton").addEventListener(
+  "click",
+  function(){
+
+    currentDate = new Date();
+
+    renderCalendar();
+
+  }
+);
+
+
+/* STATISTICS */
 
 function updateStats(){
 
   let present = 0;
   let half = 0;
   let absent = 0;
-  l
+  let marked = 0;
+
+  Object.keys(attendance).forEach(function(date){
+
+    const data = attendance[date];
+
+    if(!data) return;
+
+    if(data.status === "present"){
+      present++;
+      marked++;
+    }
+
+    if(data.status === "half"){
+      half++;
+      marked++;
+    }
+
+    if(data.status === "absent"){
+      absent++;
+      marked++;
+    }
+
+    if(data.status === "leave"){
+      marked++;
+    }
+
+  });
+
+
+  const total = present + half + absent;
+
+  const percentage =
+    total > 0
+      ? ((present + half * 0.5) / total * 100).toFixed(1)
+      : 0;
+
+
+  document.getElementById("presentCount").textContent =
+    present;
+
+  document.getElementById("halfCount").textContent =
+    half;
+
+  document.getElementById("absentCount").textContent =
+    absent;
+
+  document.getElementById("sideMarked").textContent =
+    marked;
+
+  document.getElementById("sideAttendance").textContent =
+    percentage + "%";
+
+
+  const months = new Set();
+
+  Object.keys(attendance).forEach(function(date){
+
+    months.add(date.substring(0,7));
+
+  });
+
+  document.getElementById("sideMonths").textContent =
+    months.size;
+
+}
+
+
+/* START */
+
+loadProfile();
+
+applyDarkMode();
+
+renderCalendar();
+
+
+/* SERVICE WORKER */
+
+if("serviceWorker" in navigator){
+
+  window.addEventListener("load", function(){
+
+    navigator.serviceWorker.register("./sw.js")
+      .catch(function(error){
+
+        console.log(
+          "Service worker error:",
+          error
+        );
+
+      });
+
+  });
+
+}
+  
