@@ -6,5 +6,12 @@
   "background_color": "#ffffff",
   "theme_color": "#2196F3",
   "description": "Attendly Attendance Calendar",
-  "icons": []
+  "icons": [
+  {
+    "src": "icon.svg",
+    "sizes": "any",
+    "type": "image/svg+xml",
+    "purpose": "any maskable"
+  }
+  ]
 }
