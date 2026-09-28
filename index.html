@@ -2,102 +2,1430 @@
 <html lang="en">
 <head>
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2196F3">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Attendly — Attendance Calendar</title>
+  <meta name="theme-color" content="#2196F3">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendly — Attendance Calendar</title>
+
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#748096;--line:#e7ebf2;--primary:#5b5ce2;--green:#20a464;--red:#e05252;--yellow:#e0a72f;--shadow:0 12px 35px rgba(30,40,80,.08)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text)}
-.app{max-width:1050px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:14px;background:var(--primary);color:white;display:grid;place-items:center;font-size:23px;font-weight:800}.brand h1{font-size:21px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}.btn{border:0;border-radius:11px;padding:11px 15px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}.grid{display:grid;grid-template-columns:1.5fr .8fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}.monthbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.monthbar h2{margin:0;font-size:19px}.arrows{display:flex;gap:7px}.iconbtn{width:36px;height:36px;border:1px solid var(--line);background:#fff;border-radius:10px;cursor:pointer;font-size:18px}.week,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.week div{text-align:center;color:var(--muted);font-size:11px;font-weight:700;padding:7px 0}.day{min-height:76px;border:1px solid var(--line);border-radius:12px;padding:8px;cursor:pointer;position:relative;background:#fff}.day:hover{border-color:#bfc2f5}.day.muted{opacity:.3}.num{font-size:12px;font-weight:700}.status{margin-top:12px;font-size:11px;font-weight:800}.present{background:#effaf4;border-color:#bfe8d0}.present .status{color:var(--green)}.absent{background:#fff3f3;border-color:#f0c4c4}.absent .status{color:var(--red)}.leave{background:#fff9e9;border-color:#f0dfad}.leave .status{color:#b98212}.today{outline:2px solid #8586ed;outline-offset:-2px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:14px;border-radius:14px;background:#f7f8fc}.stat b{display:block;font-size:22px;margin-top:3px}.stat span{font-size:12px;color:var(--muted)}.percent{display:grid;place-items:center;margin:18px auto;width:145px;height:145px;border-radius:50%;background:conic-gradient(var(--primary) var(--pct),#e9ebf4 0);position:relative}.percent:after{content:"";position:absolute;width:105px;height:105px;border-radius:50%;background:#fff}.percent strong{position:relative;z-index:1;font-size:25px}.legend{display:flex;gap:13px;flex-wrap:wrap;margin-top:15px;color:var(--muted);font-size:12px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.remark{margin-top:18px}.remark h3{font-size:14px;margin:0 0 8px}.remarkbox{min-height:75px;padding:12px;background:#f8f9fc;border:1px solid var(--line);border-radius:12px;color:#657087;font-size:13px}.modal{display:none;position:fixed;inset:0;background:rgba(15,20,40,.45);align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.dialog{background:#fff;border-radius:18px;width:min(430px,100%);padding:20px}.dialog h2{margin:0 0 5px}.dialog small{color:var(--muted)}label{display:block;font-size:12px;font-weight:800;margin:18px 0 7px}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.choice{padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;font-weight:700;font-size:12px}.choice.active{background:#eeeeff;border-color:#7778e8;color:#4d4ed2}textarea{width:100%;min-height:90px;resize:vertical;border:1px solid var(--line);border-radius:11px;padding:11px;font:inherit;outline:none}.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}.secondary{background:#f0f1f5;color:#333}.empty{grid-column:span 7;height:10px}
-@media(max-width:760px){.app{padding:12px}.grid{grid-template-columns:1fr}.day{min-height:65px}.status{font-size:9px}.top .btn{display:none}.card{padding:13px}.stats{grid-template-columns:repeat(4,1fr)}.stat{padding:10px}.stat b{font-size:18px}.stat span{font-size:10px}.percent{width:120px;height:120px}.percent:after{width:88px;height:88px}}
+:root{
+  --bg:#f5f7fb;
+  --card:#fff;
+  --text:#172033;
+  --muted:#748096;
+  --line:#e7ebf2;
+  --primary:#5b5ce2;
+  --green:#20a464;
+  --red:#e05252;
+  --yellow:#e0a72f;
+  --blue:#3286e8;
+  --shadow:0 12px 35px rgba(30,40,80,.08);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+  color:var(--text);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:280px;
+  background:#fff;
+  border-right:1px solid var(--line);
+  box-shadow:5px 0 25px rgba(20,30,60,.08);
+  z-index:1000;
+  padding:22px;
+  transform:translateX(-100%);
+  transition:.25s ease;
+  overflow-y:auto;
+}
+
+.sidebar.open{
+  transform:translateX(0);
+}
+
+.side-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.side-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.side-logo{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:var(--primary);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:21px;
+  font-weight:800;
+}
+
+.side-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.close-side{
+  border:0;
+  background:#f1f2f6;
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.profile{
+  background:#f7f8fc;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:15px;
+  margin-bottom:18px;
+}
+
+.profile-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.name-input{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:11px;
+  font:inherit;
+  outline:none;
+  background:#fff;
+}
+
+.name-input:focus{
+  border-color:#8586ed;
+}
+
+.side-stat{
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  margin-bottom:10px;
+  background:#fff;
+}
+
+.side-stat span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.side-stat b{
+  display:block;
+  font-size:24px;
+  margin-top:4px;
+}
+
+.side-menu{
+  margin-top:20px;
+}
+
+.side-menu-title{
+  font-size:11px;
+  color:var(--muted);
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.side-info{
+  padding:12px;
+  border-radius:11px;
+  background:#f7f8fc;
+  color:#657087;
+  font-size:12px;
+  line-height:1.5;
+}
+
+/* OVERLAY */
+
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(10,15,30,.4);
+  z-index:999;
+}
+
+.overlay.show{
+  display:block;
+}
+
+/* APP */
+
+.app{
+  max-width:1050px;
+  margin:auto;
+  padding:22px;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+.brand{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.logo{
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  background:var(--primary);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:23px;
+  font-weight:800;
+}
+
+.brand h1{
+  font-size:21px;
+  margin:0;
+}
+
+.brand p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.header-buttons{
+  display:flex;
+  gap:8px;
+}
+
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:11px 15px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.menu-btn{
+  background:#fff;
+  color:var(--text);
+  border:1px solid var(--line);
+  font-size:20px;
+  padding:8px 12px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1.5fr .8fr;
+  gap:18px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  padding:18px;
+}
+
+.monthbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.monthbar h2{
+  margin:0;
+  font-size:19px;
+}
+
+.arrows{
+  display:flex;
+  gap:7px;
+}
+
+.iconbtn{
+  width:36px;
+  height:36px;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.week,
+.days{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+}
+
+.week div{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  padding:7px 0;
+}
+
+.day{
+  min-height:76px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:8px;
+  cursor:pointer;
+  position:relative;
+  background:#fff;
+}
+
+.day:hover{
+  border-color:#bfc2f5;
+}
+
+.num{
+  font-size:12px;
+  font-weight:700;
+}
+
+.status{
+  margin-top:10px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.present{
+  background:#effaf4;
+  border-color:#bfe8d0;
+}
+
+.present .status{
+  color:var(--green);
+}
+
+.halfday{
+  background:#eef7ff;
+  border-color:#bfdcf8;
+}
+
+.halfday .status{
+  color:var(--blue);
+}
+
+.absent{
+  background:#fff3f3;
+  border-color:#f0c4c4;
+}
+
+.absent .status{
+  color:var(--red);
+}
+
+.leave{
+  background:#fff9e9;
+  border-color:#f0dfad;
+}
+
+.leave .status{
+  color:#b98212;
+}
+
+.today{
+  outline:2px solid #8586ed;
+  outline-offset:-2px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.stat{
+  padding:14px;
+  border-radius:14px;
+  background:#f7f8fc;
+}
+
+.stat b{
+  display:block;
+  font-size:22px;
+  margin-top:3px;
+}
+
+.stat span{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.percent{
+  display:grid;
+  place-items:center;
+  margin:18px auto;
+  width:145px;
+  height:145px;
+  border-radius:50%;
+  background:conic-gradient(var(--primary) var(--pct),#e9ebf4 0);
+  position:relative;
+}
+
+.percent:after{
+  content:"";
+  position:absolute;
+  width:105px;
+  height:105px;
+  border-radius:50%;
+  background:#fff;
+}
+
+.percent strong{
+  position:relative;
+  z-index:1;
+  font-size:25px;
+}
+
+.legend{
+  display:flex;
+  gap:11px;
+  flex-wrap:wrap;
+  margin-top:15px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.dot{
+  display:inline-block;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  margin-right:5px;
+}
+
+.remark{
+  margin-top:18px;
+}
+
+.remark h3{
+  font-size:14px;
+  margin:0 0 8px;
+}
+
+.remarkbox{
+  min-height:75px;
+  padding:12px;
+  background:#f8f9fc;
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:#657087;
+  font-size:13px;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,20,40,.45);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:2000;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.dialog{
+  background:#fff;
+  border-radius:18px;
+  width:min(430px,100%);
+  padding:20px;
+}
+
+.dialog h2{
+  margin:0 0 5px;
+}
+
+.dialog small{
+  color:var(--muted);
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  margin:18px 0 7px;
+}
+
+.choices{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.choice{
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  cursor:pointer;
+  font-weight:700;
+  font-size:12px;
+}
+
+.choice.active{
+  background:#eeeeff;
+  border-color:#7778e8;
+  color:#4d4ed2;
+}
+
+textarea{
+  width:100%;
+  min-height:90px;
+  resize:vertical;
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:11px;
+  font:inherit;
+  outline:none;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  margin-top:14px;
+}
+
+.secondary{
+  background:#f0f1f5;
+  color:#333;
+}
+
+.delete-btn{
+  background:#fff0f0;
+  color:var(--red);
+}
+
+/* MOBILE */
+
+@media(max-width:760px){
+
+  .app{
+    padding:12px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .day{
+    min-height:65px;
+    padding:6px;
+  }
+
+  .status{
+    font-size:8px;
+  }
+
+  .top .btn{
+    display:none;
+  }
+
+  .card{
+    padding:13px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .stat{
+    padding:10px 6px;
+    text-align:center;
+  }
+
+  .stat b{
+    font-size:18px;
+  }
+
+  .stat span{
+    font-size:9px;
+  }
+
+  .percent{
+    width:120px;
+    height:120px;
+  }
+
+  .percent:after{
+    width:88px;
+    height:88px;
+  }
+
+  .brand h1{
+    font-size:18px;
+  }
+
+  .brand p{
+    font-size:11px;
+  }
+
+  .header-buttons{
+    gap:4px;
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="app">
-<header class="top">
-  <div class="brand"><div class="logo">✓</div><div><h1>Attendly</h1><p>Attendance & remarks calendar</p></div></div>
-  <button class="btn" onclick="markToday()">＋ Mark Today</button>
-</header>
-<div class="grid">
-<section class="card">
-  <div class="monthbar"><h2 id="month"></h2><div class="arrows"><button class="iconbtn" onclick="moveMonth(-1)">‹</button><button class="iconbtn" onclick="moveMonth(1)">›</button></div></div>
-  <div class="week"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
-  <div class="days" id="days"></div>
-  <div class="legend"><span><i class="dot" style="background:var(--green)"></i>Present</span><span><i class="dot" style="background:var(--red)"></i>Absent</span><span><i class="dot" style="background:var(--yellow)"></i>Leave</span></div>
-</section>
-<aside class="card">
-  <h3 style="margin:0 0 12px">This month</h3>
-  <div class="percent" id="ring" style="--pct:0%"><strong id="pct">0%</strong></div>
-  <div class="stats">
-    <div class="stat"><span>Present</span><b id="present">0</b></div>
-    <div class="stat"><span>Absent</span><b id="absent">0</b></div>
-    <div class="stat"><span>Leave</span><b id="leave">0</b></div>
-    <div class="stat"><span>Marked</span><b id="marked">0</b></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="side-head">
+    <div class="side-brand">
+      <div class="side-logo">✓</div>
+      <div class="side-title">Attendly</div>
+    </div>
+
+    <button class="close-side" onclick="closeSidebar()">×</button>
   </div>
-  <div class="remark"><h3>Selected date</h3><div class="remarkbox" id="selectedRemark">Tap a date to add attendance and a remark.</div></div>
+
+  <div class="profile">
+
+    <div class="profile-label">YOUR NAME</div>
+
+    <input
+      class="name-input"
+      id="nameInput"
+      type="text"
+      placeholder="Enter your name"
+      oninput="saveName()"
+    >
+
+  </div>
+
+  <div class="side-stat">
+    <span>Total Months</span>
+    <b id="totalMonths">0</b>
+  </div>
+
+  <div class="side-stat">
+    <span>Overall Attendance</span>
+    <b id="overallPct">0%</b>
+  </div>
+
+  <div class="side-stat">
+    <span>Total Marked Days</span>
+    <b id="overallMarked">0</b>
+  </div>
+
+  <div class="side-menu">
+
+    <div class="side-menu-title">
+      ATTENDANCE RULE
+    </div>
+
+    <div class="side-info">
+      Present = 1 day<br>
+      Half Day Present = 0.5 day<br>
+      Absent = 0 day<br>
+      Leave is not counted in attendance percentage.
+    </div>
+
+  </div>
+
 </aside>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+
+<!-- MAIN APP -->
+
+<div class="app">
+
+<header class="top">
+
+  <div class="brand">
+
+    <div class="logo">✓</div>
+
+    <div>
+      <h1>Attendly</h1>
+      <p>Attendance & remarks calendar</p>
+    </div>
+
+  </div>
+
+  <div class="header-buttons">
+
+    <button class="btn menu-btn" onclick="openSidebar()">
+      ☰
+    </button>
+
+    <button class="btn" onclick="markToday()">
+      ＋ Mark Today
+    </button>
+
+  </div>
+
+</header>
+
+
+<div class="grid">
+
+<section class="card">
+
+  <div class="monthbar">
+
+    <h2 id="month"></h2>
+
+    <div class="arrows">
+
+      <button class="iconbtn" onclick="moveMonth(-1)">
+        ‹
+      </button>
+
+      <button class="iconbtn" onclick="moveMonth(1)">
+        ›
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="week">
+
+    <div>MON</div>
+    <div>TUE</div>
+    <div>WED</div>
+    <div>THU</div>
+    <div>FRI</div>
+    <div>SAT</div>
+    <div>SUN</div>
+
+  </div>
+
+
+  <div class="days" id="days"></div>
+
+
+  <div class="legend">
+
+    <span>
+      <i class="dot" style="background:var(--green)"></i>
+      Present
+    </span>
+
+    <span>
+      <i class="dot" style="background:var(--blue)"></i>
+      Half Day
+    </span>
+
+    <span>
+      <i class="dot" style="background:var(--red)"></i>
+      Absent
+    </span>
+
+    <span>
+      <i class="dot" style="background:var(--yellow)"></i>
+      Leave
+    </span>
+
+  </div>
+
+</section>
+
+
+<aside class="card">
+
+  <h3 style="margin:0 0 12px">
+    This month
+  </h3>
+
+
+  <div class="percent" id="ring" style="--pct:0%">
+
+    <strong id="pct">0%</strong>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+      <span>Present</span>
+      <b id="present">0</b>
+    </div>
+
+    <div class="stat">
+      <span>Half Day</span>
+      <b id="halfdayCount">0</b>
+    </div>
+
+    <div class="stat">
+      <span>Absent</span>
+      <b id="absent">0</b>
+    </div>
+
+    <div class="stat">
+      <span>Leave</span>
+      <b id="leave">0</b>
+    </div>
+
+  </div>
+
+
+  <div class="remark">
+
+    <h3>Selected date</h3>
+
+    <div class="remarkbox" id="selectedRemark">
+      Tap a date to add attendance and a remark.
+    </div>
+
+  </div>
+
+</aside>
+
 </div>
 </div>
 
+
+<!-- ATTENDANCE MODAL -->
+
 <div class="modal" id="modal">
- <div class="dialog">
-  <h2 id="dialogDate"></h2><small>Update attendance for this date</small>
-  <label>Status</label>
-  <div class="choices">
-   <button class="choice" data-status="present" onclick="choose('present')">✓ Present</button>
-   <button class="choice" data-status="absent" onclick="choose('absent')">✕ Absent</button>
-   <button class="choice" data-status="leave" onclick="choose('leave')">• Leave</button>
+
+  <div class="dialog">
+
+    <h2 id="dialogDate"></h2>
+
+    <small>
+      Update attendance for this date
+    </small>
+
+
+    <label>Status</label>
+
+    <div class="choices">
+
+      <button
+        class="choice"
+        data-status="present"
+        onclick="choose('present')"
+      >
+        ✓ Present
+      </button>
+
+      <button
+        class="choice"
+        data-status="halfday"
+        onclick="choose('halfday')"
+      >
+        ◐ Half Day
+      </button>
+
+      <button
+        class="choice"
+        data-status="absent"
+        onclick="choose('absent')"
+      >
+        ✕ Absent
+      </button>
+
+      <button
+        class="choice"
+        data-status="leave"
+        onclick="choose('leave')"
+      >
+        • Leave
+      </button>
+
+    </div>
+
+
+    <label>Remark</label>
+
+    <textarea
+      id="remarkInput"
+      placeholder="e.g. Sick, attended class, festival holiday..."
+    ></textarea>
+
+
+    <div class="actions">
+
+      <button
+        class="btn secondary"
+        onclick="closeModal()"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="btn delete-btn"
+        onclick="deleteRecord()"
+      >
+        Delete
+      </button>
+
+      <button
+        class="btn"
+        onclick="save()"
+      >
+        Save
+      </button>
+
+    </div>
+
   </div>
-  <label>Remark</label><textarea id="remarkInput" placeholder="e.g. Sick, attended class, festival holiday..."></textarea>
-  <div class="actions"><button class="btn secondary" onclick="closeModal()">Cancel</button><button class="btn" onclick="save()">Save</button></div>
- </div>
+
 </div>
+
+
 <script>
-let view=new Date(); let selected=null; let chosen='';
-const key=d=>d.toISOString().slice(0,10);
-let data=JSON.parse(localStorage.getItem('attendly')||'{}');
+
+let view = new Date();
+let selected = null;
+let chosen = '';
+
+const key = d => d.toISOString().slice(0,10);
+
+let data = JSON.parse(
+  localStorage.getItem('attendly') || '{}'
+);
+
+let savedName =
+  localStorage.getItem('attendly-name') || '';
+
+document.getElementById('nameInput').value = savedName;
+
+
+/* SIDEBAR */
+
+function openSidebar(){
+
+  document.getElementById('sidebar')
+    .classList.add('open');
+
+  document.getElementById('overlay')
+    .classList.add('show');
+
+}
+
+function closeSidebar(){
+
+  document.getElementById('sidebar')
+    .classList.remove('open');
+
+  document.getElementById('overlay')
+    .classList.remove('show');
+
+}
+
+
+/* NAME */
+
+function saveName(){
+
+  const name =
+    document.getElementById('nameInput').value;
+
+  localStorage.setItem(
+    'attendly-name',
+    name
+  );
+
+}
+
+
+/* CALENDAR */
+
 function render(){
- const y=view.getFullYear(),m=view.getMonth(); document.getElementById('month').textContent=view.toLocaleString('en',{month:'long',year:'numeric'});
- const days=document.getElementById('days'); days.innerHTML='';
- const first=(new Date(y,m,1).getDay()+6)%7, total=new Date(y,m+1,0).getDate();
- for(let i=0;i<first;i++) days.innerHTML+='<div class="empty"></div>';
- const today=key(new Date());
- for(let n=1;n<=total;n++){
-  const d=new Date(y,m,n), k=key(d), rec=data[k]||{}, el=document.createElement('div');
-  el.className='day '+(rec.status||'')+(k===today?' today':'');
-  el.innerHTML=`<div class="num">${n}</div>${rec.status?`<div class="status">${rec.status[0].toUpperCase()+rec.status.slice(1)}</div>`:''}`;
-  el.onclick=()=>openModal(k); days.appendChild(el);
- }
- stats();
+
+  const y = view.getFullYear();
+  const m = view.getMonth();
+
+  document.getElementById('month').textContent =
+    view.toLocaleString(
+      'en',
+      {
+        month:'long',
+        year:'numeric'
+      }
+    );
+
+  const days =
+    document.getElementById('days');
+
+  days.innerHTML = '';
+
+  const first =
+    (new Date(y,m,1).getDay()+6)%7;
+
+  const total =
+    new Date(y,m+1,0).getDate();
+
+  for(let i=0;i<first;i++){
+
+    days.innerHTML +=
+      '<div class="empty"></div>';
+
+  }
+
+  const today =
+    key(new Date());
+
+  for(let n=1;n<=total;n++){
+
+    const d =
+      new Date(y,m,n);
+
+    const k =
+      key(d);
+
+    const rec =
+      data[k] || {};
+
+    const el =
+      document.createElement('div');
+
+    el.className =
+      'day ' +
+      (rec.status || '') +
+      (k===today ? ' today' : '');
+
+    let statusText = '';
+
+    if(rec.status){
+
+      if(rec.status === 'present')
+        statusText = 'Present';
+
+      if(rec.status === 'halfday')
+        statusText = 'Half Day';
+
+      if(rec.status === 'absent')
+        statusText = 'Absent';
+
+      if(rec.status === 'leave')
+        statusText = 'Leave';
+
+    }
+
+    el.innerHTML =
+      `<div class="num">${n}</div>` +
+      (statusText
+        ? `<div class="status">${statusText}</div>`
+        : '');
+
+    el.onclick =
+      () => openModal(k);
+
+    days.appendChild(el);
+
+  }
+
+  stats();
+
+  updateOverallStats();
+
 }
+
+
+/* MONTHLY STATS */
+
 function stats(){
- const y=view.getFullYear(),m=view.getMonth(), prefix=`${y}-${String(m+1).padStart(2,'0')}`;
- let p=0,a=0,l=0; Object.entries(data).forEach(([k,v])=>{if(k.startsWith(prefix)){if(v.status==='present')p++;if(v.status==='absent')a++;if(v.status==='leave')l++;}});
- const marked=p+a+l, pct=marked?Math.round(p/marked*100):0;
- present.textContent=p;absent.textContent=a;leave.textContent=l;markedEl.textContent=marked;
- document.getElementById('pct').textContent=pct+'%';document.getElementById('ring').style.setProperty('--pct',pct+'%');
+
+  const y =
+    view.getFullYear();
+
+  const m =
+    view.getMonth();
+
+  const prefix =
+    `${y}-${String(m+1).padStart(2,'0')}`;
+
+  let p = 0;
+  let h = 0;
+  let a = 0;
+  let l = 0;
+
+  Object.entries(data).forEach(
+    ([k,v]) => {
+
+      if(k.startsWith(prefix)){
+
+        if(v.status === 'present')
+          p++;
+
+        if(v.status === 'halfday')
+          h++;
+
+        if(v.status === 'absent')
+          a++;
+
+        if(v.status === 'leave')
+          l++;
+
+      }
+
+    }
+  );
+
+  /*
+    Attendance calculation:
+
+    Present = 1
+    Half Day = 0.5
+    Absent = 0
+
+    Leave is excluded.
+  */
+
+  const attendanceDays =
+    p + (h * 0.5);
+
+  const countedDays =
+    p + h + a;
+
+  const pct =
+    countedDays
+      ? Math.round(
+          attendanceDays /
+          countedDays *
+          100
+        )
+      : 0;
+
+  document.getElementById('present')
+    .textContent = p;
+
+  document.getElementById('halfdayCount')
+    .textContent = h;
+
+  document.getElementById('absent')
+    .textContent = a;
+
+  document.getElementById('leave')
+    .textContent = l;
+
+  document.getElementById('pct')
+    .textContent = pct + '%';
+
+  document.getElementById('ring')
+    .style.setProperty(
+      '--pct',
+      pct + '%'
+    );
+
 }
-const markedEl=document.getElementById('marked');
-function moveMonth(n){view=new Date(view.getFullYear(),view.getMonth()+n,1);render()}
+
+
+/* OVERALL SIDEBAR STATS */
+
+function updateOverallStats(){
+
+  const months = new Set();
+
+  let p = 0;
+  let h = 0;
+  let a = 0;
+
+  Object.entries(data).forEach(
+    ([k,v]) => {
+
+      if(!v || !v.status)
+        return;
+
+      months.add(k.slice(0,7));
+
+      if(v.status === 'present')
+        p++;
+
+      if(v.status === 'halfday')
+        h++;
+
+      if(v.status === 'absent')
+        a++;
+
+    }
+  );
+
+  const attendance =
+    p + (h * 0.5);
+
+  const counted =
+    p + h + a;
+
+  const overall =
+    counted
+      ? Math.round(
+          attendance /
+          counted *
+          100
+        )
+      : 0;
+
+  document.getElementById('totalMonths')
+    .textContent = months.size;
+
+  document.getElementById('overallPct')
+    .textContent = overall + '%';
+
+  document.getElementById('overallMarked')
+    .textContent = counted;
+
+}
+
+
+/* MONTH NAVIGATION */
+
+function moveMonth(n){
+
+  view =
+    new Date(
+      view.getFullYear(),
+      view.getMonth()+n,
+      1
+    );
+
+  render();
+
+}
+
+
+/* OPEN MODAL */
+
 function openModal(k){
- selected=k; const d=new Date(k+'T00:00:00'); document.getElementById('dialogDate').textContent=d.toLocaleDateString('en',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
- const rec=data[k]||{}; chosen=rec.status||'';document.getElementById('remarkInput').value=rec.remark||'';updateChoices();document.getElementById('modal').classList.add('show');
- document.getElementById('selectedRemark').textContent=rec.remark||'No remark for this date.';
+
+  selected = k;
+
+  const d =
+    new Date(k+'T00:00:00');
+
+  document.getElementById(
+    'dialogDate'
+  ).textContent =
+    d.toLocaleDateString(
+      'en',
+      {
+        weekday:'long',
+        day:'numeric',
+        month:'long',
+        year:'numeric'
+      }
+    );
+
+  const rec =
+    data[k] || {};
+
+  chosen =
+    rec.status || '';
+
+  document.getElementById(
+    'remarkInput'
+  ).value =
+    rec.remark || '';
+
+  updateChoices();
+
+  document.getElementById(
+    'modal'
+  ).classList.add('show');
+
+  document.getElementById(
+    'selectedRemark'
+  ).textContent =
+    rec.remark ||
+    'No remark for this date.';
+
 }
-function choose(s){chosen=s;updateChoices()}
-function updateChoices(){document.querySelectorAll('.choice').forEach(b=>b.classList.toggle('active',b.dataset.status===chosen))}
-function save(){if(!chosen && !document.getElementById('remarkInput').value.trim()) delete data[selected]; else data[selected]={status:chosen,remark:document.getElementById('remarkInput').value.trim()};localStorage.setItem('attendly',JSON.stringify(data));closeModal();render();document.getElementById('selectedRemark').textContent=data[selected]?.remark||'No remark for this date.'}
-function closeModal(){document.getElementById('modal').classList.remove('show')}
-function markToday(){view=new Date();render();openModal(key(new Date()))}
+
+
+/* CHOOSE STATUS */
+
+function choose(s){
+
+  chosen = s;
+
+  updateChoices();
+
+}
+
+
+function updateChoices(){
+
+  document
+    .querySelectorAll('.choice')
+    .forEach(
+      b =>
+        b.classList.toggle(
+          'active',
+          b.dataset.status === chosen
+        )
+    );
+
+}
+
+
+/* SAVE */
+
+function save(){
+
+  const remark =
+    document
+      .getElementById('remarkInput')
+      .value
+      .trim();
+
+  if(!chosen && !remark){
+
+    delete data[selected];
+
+  }else{
+
+    data[selected] = {
+
+      status: chosen,
+
+      remark: remark
+
+    };
+
+  }
+
+  localStorage.setItem(
+    'attendly',
+    JSON.stringify(data)
+  );
+
+  closeModal();
+
+  render();
+
+  document.getElementById(
+    'selectedRemark'
+  ).textContent =
+    data[selected]?.remark ||
+    'No remark for this date.';
+
+}
+
+
+/* DELETE */
+
+function deleteRecord(){
+
+  if(selected){
+
+    delete data[selected];
+
+    localStorage.setItem(
+      'attendly',
+      JSON.stringify(data)
+    );
+
+  }
+
+  chosen = '';
+
+  closeModal();
+
+  render();
+
+  document.getElementById(
+    'selectedRemark'
+  ).textContent =
+    'No remark for this date.';
+
+}
+
+
+/* CLOSE MODAL */
+
+function closeModal(){
+
+  document.getElementById(
+    'modal'
+  ).classList.remove('show');
+
+}
+
+
+/* TODAY */
+
+function markToday(){
+
+  view = new Date();
+
+  render();
+
+  openModal(
+    key(new Date())
+  );
+
+}
+
+
+/* INITIAL LOAD */
+
 render();
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js");
-  });
+
+
+/* SERVICE WORKER */
+
+if("serviceWorker" in navigator){
+
+  window.addEventListener(
+    "load",
+    () => {
+
+      navigator.serviceWorker.register(
+        "./sw.js"
+      );
+
+    }
+  );
+
 }
+
 </script>
+
 </body>
-</html>
+  </htm
