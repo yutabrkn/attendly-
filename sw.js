@@ -1,4 +1,4 @@
-const CACHE_NAME = "attendly-v2";
+const CACHE_NAME = "attendly-v3";
 
 const FILES_TO_CACHE = [
   "./",
@@ -16,6 +16,7 @@ self.addEventListener("install", event => {
   );
 
   self.skipWaiting();
+
 });
 
 
@@ -23,9 +24,9 @@ self.addEventListener("activate", event => {
 
   event.waitUntil(
 
-    caches.keys().then(keys =>
+    caches.keys().then(keys => {
 
-      Promise.all(
+      return Promise.all(
 
         keys.map(key => {
 
@@ -35,15 +36,18 @@ self.addEventListener("activate", event => {
 
           }
 
+          return null;
+
         })
 
-      )
+      );
 
-    )
+    })
 
   );
 
   self.clients.claim();
+
 });
 
 
@@ -58,7 +62,12 @@ self.addEventListener("fetch", event => {
 
         caches.open(CACHE_NAME)
           .then(cache => {
-            cache.put(event.request, copy);
+
+            cache.put(
+              event.request,
+              copy
+            );
+
           });
 
         return response;
@@ -66,7 +75,9 @@ self.addEventListener("fetch", event => {
       })
       .catch(() => {
 
-        return caches.match(event.request);
+        return caches.match(
+          event.request
+        );
 
       })
 
