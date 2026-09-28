@@ -1,596 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#2196F3">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attendly — Attendance Calendar</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Attendly</title>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#2196F3">
 
 <style>
-:root{
-  --bg:#f5f7fb;
-  --card:#fff;
-  --text:#172033;
-  --muted:#748096;
-  --line:#e7ebf2;
-  --primary:#5b5ce2;
-  --green:#20a464;
-  --red:#e05252;
-  --yellow:#e0a72f;
-  --blue:#3286e8;
-  --shadow:0 12px 35px rgba(30,40,80,.08);
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-/* DARK MODE */
+:root{
+  --primary:#2196F3;
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#758096;
+  --line:#e2e7ef;
+  --green:#20b26b;
+  --red:#ef5350;
+  --orange:#ff9800;
+  --purple:#8e5cf6;
+  --shadow:0 8px 25px rgba(0,0,0,.08);
+}
 
 body.dark{
   --bg:#10131a;
-  --card:#181c25;
-  --text:#f1f4fa;
-  --muted:#9ba5b7;
-  --line:#2a3040;
-  --shadow:0 12px 35px rgba(0,0,0,.25);
-}
-
-*{
-  box-sizing:border-box;
+  --card:#181d27;
+  --text:#f3f5f8;
+  --muted:#9ba6b8;
+  --line:#2b3342;
+  --shadow:0 8px 25px rgba(0,0,0,.3);
 }
 
 body{
   margin:0;
+  font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
   color:var(--text);
   transition:.2s;
+}
+
+/* TOP BAR */
+
+.topbar{
+  height:64px;
+  background:var(--card);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  padding:0 15px;
+  gap:15px;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.menu-btn{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:10px;
+  background:var(--bg);
+  color:var(--text);
+  font-size:24px;
+  cursor:pointer;
+}
+
+.logo{
+  font-size:21px;
+  font-weight:800;
+  color:var(--primary);
 }
 
 /* SIDEBAR */
-
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:280px;
-  background:var(--card);
-  border-right:1px solid var(--line);
-  box-shadow:5px 0 25px rgba(20,30,60,.08);
-  z-index:1000;
-  padding:22px;
-  transform:translateX(-100%);
-  transition:.25s ease;
-  overflow-y:auto;
-}
-
-.sidebar.open{
-  transform:translateX(0);
-}
-
-.side-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:25px;
-}
-
-.side-brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.side-logo{
-  width:42px;
-  height:42px;
-  border-radius:13px;
-  background:var(--primary);
-  color:white;
-  display:grid;
-  place-items:center;
-  font-size:21px;
-  font-weight:800;
-}
-
-.side-title{
-  font-size:18px;
-  font-weight:800;
-}
-
-.close-side{
-  border:0;
-  background:#f1f2f6;
-  color:#222;
-  width:34px;
-  height:34px;
-  border-radius:9px;
-  cursor:pointer;
-  font-size:20px;
-}
-
-.dark .close-side{
-  background:#292e39;
-  color:white;
-}
-
-/* PROFILE */
-
-.profile{
-  background:#f7f8fc;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:15px;
-  margin-bottom:18px;
-}
-
-.dark .profile{
-  background:#202530;
-}
-
-.profile-top{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:14px;
-}
-
-.profile-picture{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  object-fit:cover;
-  border:3px solid var(--primary);
-  background:#e9ebf4;
-}
-
-.profile-placeholder{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  background:var(--primary);
-  color:white;
-  display:grid;
-  place-items:center;
-  font-size:27px;
-  font-weight:800;
-}
-
-.profile-buttons{
-  display:flex;
-  gap:7px;
-}
-
-.photo-btn{
-  flex:1;
-  border:0;
-  border-radius:9px;
-  padding:9px 5px;
-  background:var(--primary);
-  color:white;
-  font-size:11px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.remove-photo{
-  background:#fff0f0;
-  color:var(--red);
-}
-
-.profile-label{
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  margin-bottom:7px;
-}
-
-.name-input{
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:11px;
-  font:inherit;
-  outline:none;
-  background:var(--card);
-  color:var(--text);
-}
-
-.name-input:focus{
-  border-color:#8586ed;
-}
-
-/* STATS */
-
-.side-stat{
-  padding:15px;
-  border:1px solid var(--line);
-  border-radius:15px;
-  margin-bottom:10px;
-  background:var(--card);
-}
-
-.side-stat span{
-  display:block;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.side-stat b{
-  display:block;
-  font-size:24px;
-  margin-top:4px;
-}
-
-.side-menu{
-  margin-top:20px;
-}
-
-.side-menu-title{
-  font-size:11px;
-  color:var(--muted);
-  font-weight:800;
-  margin-bottom:8px;
-}
-
-.side-info{
-  padding:12px;
-  border-radius:11px;
-  background:#f7f8fc;
-  color:#657087;
-  font-size:12px;
-  line-height:1.5;
-}
-
-.dark .side-info{
-  background:#202530;
-  color:#aab3c3;
-}
-
-/* DARK MODE BUTTON */
-
-.theme-toggle{
-  margin-top:18px;
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:13px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:var(--card);
-  color:var(--text);
-  cursor:pointer;
-  font-weight:700;
-}
-
-.theme-left{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.toggle{
-  width:42px;
-  height:23px;
-  background:#d9dce5;
-  border-radius:20px;
-  padding:3px;
-  transition:.2s;
-}
-
-.toggle-circle{
-  width:17px;
-  height:17px;
-  background:white;
-  border-radius:50%;
-  transition:.2s;
-}
-
-.dark .toggle{
-  background:var(--primary);
-}
-
-.dark .toggle-circle{
-  transform:translateX(19px);
-}
-
-/* OVERLAY */
 
 .overlay{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(10,15,30,.4);
-  z-index:999;
+  background:rgba(0,0,0,.45);
+  z-index:199;
 }
 
 .overlay.show{
   display:block;
 }
 
-/* APP */
-
-.app{
-  max-width:1050px;
-  margin:auto;
-  padding:22px;
+.sidebar{
+  position:fixed;
+  top:0;
+  left:-310px;
+  width:300px;
+  height:100vh;
+  background:var(--card);
+  z-index:200;
+  padding:20px;
+  overflow-y:auto;
+  transition:.25s ease;
+  box-shadow:8px 0 30px rgba(0,0,0,.15);
 }
 
-.top{
+.sidebar.open{
+  left:0;
+}
+
+.side-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:20px;
+  margin-bottom:22px;
 }
 
-.brand{
+.side-title{
+  font-size:22px;
+  font-weight:800;
+}
+
+.close-btn{
+  border:0;
+  background:var(--bg);
+  color:var(--text);
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  font-size:22px;
+}
+
+/* PROFILE */
+
+.profile-box{
+  padding:15px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:15px;
+}
+
+.profile-top{
   display:flex;
-  gap:12px;
   align-items:center;
+  gap:12px;
+  margin-bottom:15px;
 }
 
-.logo{
-  width:46px;
-  height:46px;
-  border-radius:14px;
+.profile-container{
+  width:65px;
+  height:65px;
+  flex-shrink:0;
+}
+
+.profile-picture{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--primary);
+}
+
+.profile-placeholder{
+  width:65px;
+  height:65px;
+  border-radius:50%;
   background:var(--primary);
   color:white;
   display:grid;
   place-items:center;
-  font-size:23px;
-  font-weight:800;
+  font-size:28px;
 }
 
-.brand h1{
-  font-size:21px;
-  margin:0;
-}
-
-.brand p{
-  margin:3px 0 0;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.header-buttons{
+.photo-buttons{
   display:flex;
-  gap:8px;
+  flex-direction:column;
+  gap:6px;
+  flex:1;
 }
 
-.btn{
+.photo-btn{
   border:0;
-  border-radius:11px;
-  padding:11px 15px;
+  border-radius:8px;
+  padding:8px;
   background:var(--primary);
-  color:#fff;
+  color:white;
   font-weight:700;
   cursor:pointer;
 }
 
-.menu-btn{
-  background:var(--card);
-  color:var(--text);
-  border:1px solid var(--line);
-  font-size:20px;
-  padding:8px 12px;
+.remove-btn{
+  background:#ffe8e8;
+  color:#d93030;
 }
 
-.grid{
+.profile-label{
+  font-size:11px;
+  font-weight:800;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.name-input{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--card);
+  color:var(--text);
+  outline:none;
+  font-size:15px;
+}
+
+.name-input:focus{
+  border-color:var(--primary);
+}
+
+.save-profile{
+  width:100%;
+  margin-top:12px;
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  background:var(--green);
+  color:white;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.saved-message{
+  text-align:center;
+  font-size:12px;
+  color:var(--green);
+  font-weight:700;
+  margin-top:8px;
+  display:none;
+}
+
+/* DARK MODE */
+
+.theme-toggle{
+  width:100%;
+  margin-top:15px;
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--card);
+  color:var(--text);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.theme-left{
+  display:flex;
+  gap:9px;
+  align-items:center;
+}
+
+.toggle{
+  width:43px;
+  height:24px;
+  background:#cfd5df;
+  border-radius:20px;
+  padding:3px;
+}
+
+.toggle-circle{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:white;
+  transition:.2s;
+}
+
+body.dark .toggle{
+  background:var(--primary);
+}
+
+body.dark .toggle-circle{
+  transform:translateX(19px);
+}
+
+/* SIDEBAR STATS */
+
+.stat-card{
+  margin-top:15px;
+  padding:15px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+}
+
+.stat-title{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+.stat-value{
+  font-size:24px;
+  font-weight:800;
+  margin-top:5px;
+}
+
+/* MAIN */
+
+.main{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
+
+.welcome{
+  margin-bottom:18px;
+}
+
+.welcome h1{
+  margin:0;
+  font-size:25px;
+}
+
+.welcome p{
+  margin:5px 0 0;
+  color:var(--muted);
+}
+
+/* DASHBOARD */
+
+.dashboard{
   display:grid;
-  grid-template-columns:1.5fr .8fr;
-  gap:18px;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:18px;
 }
 
 .card{
   background:var(--card);
   border:1px solid var(--line);
-  border-radius:18px;
+  border-radius:15px;
+  padding:15px;
   box-shadow:var(--shadow);
-  padding:18px;
 }
 
-.monthbar{
+.card-title{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+.card-number{
+  font-size:25px;
+  font-weight:800;
+  margin-top:7px;
+}
+
+/* CALENDAR */
+
+.calendar-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+
+.calendar-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:15px;
+  margin-bottom:18px;
 }
 
-.monthbar h2{
-  margin:0;
-  font-size:19px;
+.month-title{
+  font-size:20px;
+  font-weight:800;
 }
 
-.arrows{
+.nav-buttons{
   display:flex;
   gap:7px;
 }
 
-.iconbtn{
-  width:36px;
-  height:36px;
-  border:1px solid var(--line);
-  background:var(--card);
+.nav-buttons button{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:9px;
+  background:var(--bg);
   color:var(--text);
-  border-radius:10px;
-  cursor:pointer;
   font-size:18px;
 }
 
-.week,
+.weekdays,
 .days{
   display:grid;
   grid-template-columns:repeat(7,1fr);
-  gap:6px;
+  gap:5px;
 }
 
-.week div{
+.weekdays div{
   text-align:center;
-  color:var(--muted);
   font-size:11px;
-  font-weight:700;
-  padding:7px 0;
+  color:var(--muted);
+  font-weight:800;
+  padding-bottom:7px;
 }
 
 .day{
-  min-height:76px;
+  min-height:48px;
   border:1px solid var(--line);
-  border-radius:12px;
-  padding:8px;
+  border-radius:9px;
+  background:var(--card);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
   position:relative;
-  background:var(--card);
 }
 
 .day:hover{
-  border-color:#bfc2f5;
+  border-color:var(--primary);
 }
 
-.num{
-  font-size:12px;
-  font-weight:700;
+.day-number{
+  font-size:13px;
+  font-weight:800;
 }
 
-.status{
-  margin-top:10px;
-  font-size:10px;
+.day-status{
+  font-size:9px;
+  margin-top:3px;
   font-weight:800;
 }
 
 .present{
-  background:#effaf4;
-  border-color:#bfe8d0;
+  background:#e8f8f0;
+  border-color:#8edbb6;
+  color:#13834c;
 }
 
-.present .status{
-  color:var(--green);
-}
-
-.halfday{
-  background:#eef7ff;
-  border-color:#bfdcf8;
-}
-
-.halfday .status{
-  color:var(--blue);
+.half{
+  background:#fff5df;
+  border-color:#ffd37b;
+  color:#b66b00;
 }
 
 .absent{
-  background:#fff3f3;
-  border-color:#f0c4c4;
-}
-
-.absent .status{
-  color:var(--red);
+  background:#ffeaea;
+  border-color:#ffaaaa;
+  color:#cf3030;
 }
 
 .leave{
-  background:#fff9e9;
-  border-color:#f0dfad;
+  background:#eee9ff;
+  border-color:#c3b5ff;
+  color:#6a49d7;
 }
 
-.leave .status{
-  color:#b98212;
+body.dark .present{
+  background:#123a29;
+  border-color:#246d4d;
 }
 
-.today{
-  outline:2px solid #8586ed;
-  outline-offset:-2px;
+body.dark .half{
+  background:#3d2e13;
+  border-color:#76571f;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
+body.dark .absent{
+  background:#3b1818;
+  border-color:#703333;
 }
 
-.stat{
-  padding:14px;
-  border-radius:14px;
-  background:#f7f8fc;
+body.dark .leave{
+  background:#292044;
+  border-color:#51418a;
 }
 
-.dark .stat{
-  background:#202530;
+/* LEGEND */
+
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:17px;
 }
 
-.stat b{
-  display:block;
-  font-size:22px;
-  margin-top:3px;
-}
-
-.stat span{
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:5px;
   font-size:12px;
   color:var(--muted);
 }
 
-.percent{
-  display:grid;
-  place-items:center;
-  margin:18px auto;
-  width:145px;
-  height:145px;
-  border-radius:50%;
-  background:conic-gradient(var(--primary) var(--pct),#e9ebf4 0);
-  position:relative;
-}
-
-.percent:after{
-  content:"";
-  position:absolute;
-  width:105px;
-  height:105px;
-  border-radius:50%;
-  background:var(--card);
-}
-
-.percent strong{
-  position:relative;
-  z-index:1;
-  font-size:25px;
-}
-
-.legend{
-  display:flex;
-  gap:11px;
-  flex-wrap:wrap;
-  margin-top:15px;
-  color:var(--muted);
-  font-size:11px;
-}
-
 .dot{
-  display:inline-block;
-  width:9px;
-  height:9px;
+  width:10px;
+  height:10px;
   border-radius:50%;
-  margin-right:5px;
 }
 
-.remark{
-  margin-top:18px;
-}
-
-.remark h3{
-  font-size:14px;
-  margin:0 0 8px;
-}
-
-.remarkbox{
-  min-height:75px;
-  padding:12px;
-  background:#f8f9fc;
-  border:1px solid var(--line);
-  border-radius:12px;
-  color:#657087;
-  font-size:13px;
-}
-
-.dark .remarkbox{
-  background:#202530;
-  color:#aab3c3;
-}
+.dot.present{background:var(--green);}
+.dot.half{background:var(--orange);}
+.dot.absent{background:var(--red);}
+.dot.leave{background:var(--purple);}
 
 /* MODAL */
 
@@ -598,164 +518,103 @@ body{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(15,20,40,.45);
+  background:rgba(0,0,0,.5);
+  z-index:500;
   align-items:center;
   justify-content:center;
-  padding:18px;
-  z-index:2000;
+  padding:20px;
 }
 
 .modal.show{
   display:flex;
 }
 
-.dialog{
+.modal-box{
+  width:100%;
+  max-width:400px;
   background:var(--card);
   color:var(--text);
   border-radius:18px;
-  width:min(430px,100%);
   padding:20px;
 }
 
-.dialog h2{
-  margin:0 0 5px;
+.modal-box h2{
+  margin-top:0;
 }
 
-.dialog small{
-  color:var(--muted);
-}
-
-label{
-  display:block;
-  font-size:12px;
-  font-weight:800;
-  margin:18px 0 7px;
-}
-
-.choices{
+.status-buttons{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin:15px 0;
 }
 
-.choice{
-  padding:12px;
-  border:1px solid var(--line);
+.status-buttons button{
+  padding:13px 5px;
   border-radius:10px;
-  background:var(--card);
-  color:var(--text);
-  cursor:pointer;
-  font-weight:700;
-  font-size:12px;
-}
-
-.choice.active{
-  background:#eeeeff;
-  border-color:#7778e8;
-  color:#4d4ed2;
-}
-
-textarea{
-  width:100%;
-  min-height:90px;
-  resize:vertical;
   border:1px solid var(--line);
-  border-radius:11px;
-  padding:11px;
-  font:inherit;
-  outline:none;
-  background:var(--card);
+  background:var(--bg);
   color:var(--text);
+  font-weight:700;
 }
 
-.actions{
+.status-buttons button.selected{
+  border:2px solid var(--primary);
+}
+
+.remark{
+  width:100%;
+  min-height:80px;
+  resize:none;
+  padding:11px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--bg);
+  color:var(--text);
+  outline:none;
+}
+
+.modal-actions{
   display:flex;
   gap:8px;
-  justify-content:flex-end;
-  margin-top:14px;
+  margin-top:12px;
 }
 
-.secondary{
-  background:#f0f1f5;
-  color:#333;
+.modal-actions button{
+  flex:1;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  font-weight:800;
 }
 
-.dark .secondary{
-  background:#292e39;
+.cancel{
+  background:var(--bg);
+  color:var(--text);
+}
+
+.save{
+  background:var(--primary);
   color:white;
 }
 
-.delete-btn{
-  background:#fff0f0;
-  color:var(--red);
-}
+/* RESPONSIVE */
 
-/* MOBILE */
-
-@media(max-width:760px){
-
-  .app{
-    padding:12px;
+@media(max-width:600px){
+  .dashboard{
+    grid-template-columns:1fr 1fr;
   }
 
-  .grid{
-    grid-template-columns:1fr;
+  .dashboard .card:last-child{
+    grid-column:span 2;
   }
 
-  .day{
-    min-height:65px;
-    padding:6px;
-  }
-
-  .status{
-    font-size:8px;
-  }
-
-  .top .btn:not(.menu-btn){
-    display:none;
-  }
-
-  .card{
+  .main{
     padding:13px;
   }
 
-  .stats{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  .stat{
-    padding:10px 6px;
-    text-align:center;
-  }
-
-  .stat b{
-    font-size:18px;
-  }
-
-  .stat span{
-    font-size:9px;
-  }
-
-  .percent{
-    width:120px;
-    height:120px;
-  }
-
-  .percent:after{
-    width:88px;
-    height:88px;
-  }
-
-  .brand h1{
-    font-size:18px;
-  }
-
-  .brand p{
-    font-size:11px;
-  }
-
-  .header-buttons{
-    gap:4px;
+  .day{
+    min-height:44px;
   }
 }
 </style>
@@ -763,57 +622,35 @@ textarea{
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
 
-  <div class="side-head">
-
-    <div class="side-brand">
-
-      <div class="side-logo">✓</div>
-
-      <div class="side-title">
-        Attendly
-      </div>
-
-    </div>
-
-    <button
-      class="close-side"
-      onclick="closeSidebar()">
-      ×
-    </button>
-
+  <div class="side-header">
+    <div class="side-title">Attendly</div>
+    <button class="close-btn" onclick="closeSidebar()">×</button>
   </div>
 
-
-  <!-- PROFILE -->
-
-  <div class="profile">
+  <div class="profile-box">
 
     <div class="profile-top">
 
-      <div id="profileContainer">
-        <div class="profile-placeholder">
-          👤
-        </div>
+      <div class="profile-container" id="profileContainer">
+        <div class="profile-placeholder">👤</div>
       </div>
 
-      <div class="profile-buttons">
-
-        <button
-          class="photo-btn"
+      <div class="photo-buttons">
+        <button class="photo-btn"
           onclick="document.getElementById('photoInput').click()">
-          🖼️ Photo
+          🖼️ Choose Photo
         </button>
 
-        <button
-          class="photo-btn remove-photo"
+        <button class="photo-btn remove-btn"
           onclick="removePhoto()">
           Remove
         </button>
-
       </div>
 
     </div>
@@ -826,44 +663,26 @@ textarea{
       onchange="changePhoto(event)"
     >
 
-    <div class="profile-label">
-      YOUR NAME
-    </div>
+    <div class="profile-label">YOUR NAME</div>
 
     <input
       class="name-input"
       id="nameInput"
       type="text"
       placeholder="Enter your name"
-      oninput="saveName()"
     >
 
+    <button class="save-profile" onclick="saveProfile()">
+      💾 Save Profile
+    </button>
+
+    <div class="saved-message" id="savedMessage">
+      ✓ Profile saved
+    </div>
+
   </div>
 
-
-  <!-- STATS -->
-
-  <div class="side-stat">
-    <span>Total Months</span>
-    <b id="totalMonths">0</b>
-  </div>
-
-  <div class="side-stat">
-    <span>Overall Attendance</span>
-    <b id="overallPct">0%</b>
-  </div>
-
-  <div class="side-stat">
-    <span>Total Marked Days</span>
-    <b id="overallMarked">0</b>
-  </div>
-
-
-  <!-- DARK MODE -->
-
-  <button
-    class="theme-toggle"
-    onclick="toggleDarkMode()">
+  <button class="theme-toggle" onclick="toggleDarkMode()">
 
     <div class="theme-left">
       <span id="themeIcon">🌙</span>
@@ -876,301 +695,158 @@ textarea{
 
   </button>
 
+  <div class="stat-card">
+    <div class="stat-title">TOTAL MONTHS</div>
+    <div class="stat-value" id="sideMonths">0</div>
+  </div>
 
-  <div class="side-menu">
+  <div class="stat-card">
+    <div class="stat-title">OVERALL ATTENDANCE</div>
+    <div class="stat-value" id="sideAttendance">0%</div>
+  </div>
 
-    <div class="side-menu-title">
-      ATTENDANCE RULE
-    </div>
-
-    <div class="side-info">
-      Present = 1 day<br>
-      Half Day Present = 0.5 day<br>
-      Absent = 0 day<br>
-      Leave is not counted in attendance percentage.
-    </div>
-
+  <div class="stat-card">
+    <div class="stat-title">TOTAL MARKED DAYS</div>
+    <div class="stat-value" id="sideMarked">0</div>
   </div>
 
 </aside>
 
 
-<div
-  class="overlay"
-  id="overlay"
-  onclick="closeSidebar()">
-</div>
+<!-- TOP BAR -->
+<header class="topbar">
 
+  <button class="menu-btn" onclick="openSidebar()">☰</button>
 
-<!-- MAIN APP -->
-
-<div class="app">
-
-<header class="top">
-
-  <div class="brand">
-
-    <div class="logo">
-      ✓
-    </div>
-
-    <div>
-
-      <h1>Attendly</h1>
-
-      <p>
-        Attendance & remarks calendar
-      </p>
-
-    </div>
-
-  </div>
-
-
-  <div class="header-buttons">
-
-    <button
-      class="btn menu-btn"
-      onclick="openSidebar()">
-      ☰
-    </button>
-
-    <button
-      class="btn"
-      onclick="markToday()">
-      ＋ Mark Today
-    </button>
-
-  </div>
+  <div class="logo">Attendly</div>
 
 </header>
 
 
-<div class="grid">
+<!-- MAIN -->
+<main class="main">
 
-<section class="card">
+  <div class="welcome">
+    <h1 id="welcomeText">Attendance Calendar</h1>
+    <p>Track your attendance easily.</p>
+  </div>
 
-  <div class="monthbar">
+  <section class="dashboard">
 
-    <h2 id="month"></h2>
+    <div class="card">
+      <div class="card-title">PRESENT</div>
+      <div class="card-number" id="presentCount">0</div>
+    </div>
 
-    <div class="arrows">
+    <div class="card">
+      <div class="card-title">HALF DAY</div>
+      <div class="card-number" id="halfCount">0</div>
+    </div>
 
-      <button
-        class="iconbtn"
-        onclick="moveMonth(-1)">
-        ‹
-      </button>
+    <div class="card">
+      <div class="card-title">ABSENT</div>
+      <div class="card-number" id="absentCount">0</div>
+    </div>
 
-      <button
-        class="iconbtn"
-        onclick="moveMonth(1)">
-        ›
-      </button>
+  </section>
+
+
+  <section class="calendar-card">
+
+    <div class="calendar-header">
+
+      <div class="month-title" id="monthTitle"></div>
+
+      <div class="nav-buttons">
+        <button onclick="previousMonth()">‹</button>
+        <button onclick="goToday()">●</button>
+        <button onclick="nextMonth()">›</button>
+      </div>
 
     </div>
 
-  </div>
-
-
-  <div class="week">
-
-    <div>MON</div>
-    <div>TUE</div>
-    <div>WED</div>
-    <div>THU</div>
-    <div>FRI</div>
-    <div>SAT</div>
-    <div>SUN</div>
-
-  </div>
-
-
-  <div
-    class="days"
-    id="days">
-  </div>
-
-
-  <div class="legend">
-
-    <span>
-      <i
-        class="dot"
-        style="background:var(--green)">
-      </i>
-      Present
-    </span>
-
-    <span>
-      <i
-        class="dot"
-        style="background:var(--blue)">
-      </i>
-      Half Day
-    </span>
-
-    <span>
-      <i
-        class="dot"
-        style="background:var(--red)">
-      </i>
-      Absent
-    </span>
-
-    <span>
-      <i
-        class="dot"
-        style="background:var(--yellow)">
-      </i>
-      Leave
-    </span>
-
-  </div>
-
-</section>
-
-
-<aside class="card">
-
-  <h3 style="margin:0 0 12px">
-    This month
-  </h3>
-
-
-  <div
-    class="percent"
-    id="ring"
-    style="--pct:0%">
-
-    <strong id="pct">
-      0%
-    </strong>
-
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-      <span>Present</span>
-      <b id="present">0</b>
+    <div class="weekdays">
+      <div>Sun</div>
+      <div>Mon</div>
+      <div>Tue</div>
+      <div>Wed</div>
+      <div>Thu</div>
+      <div>Fri</div>
+      <div>Sat</div>
     </div>
 
-    <div class="stat">
-      <span>Half Day</span>
-      <b id="halfdayCount">0</b>
+    <div class="days" id="days"></div>
+
+    <div class="legend">
+
+      <div class="legend-item">
+        <span class="dot present"></span>
+        Present
+      </div>
+
+      <div class="legend-item">
+        <span class="dot half"></span>
+        Half Day
+      </div>
+
+      <div class="legend-item">
+        <span class="dot absent"></span>
+        Absent
+      </div>
+
+      <div class="legend-item">
+        <span class="dot leave"></span>
+        Leave
+      </div>
+
     </div>
 
-    <div class="stat">
-      <span>Absent</span>
-      <b id="absent">0</b>
-    </div>
+  </section>
 
-    <div class="stat">
-      <span>Leave</span>
-      <b id="leave">0</b>
-    </div>
-
-  </div>
-
-
-  <div class="remark">
-
-    <h3>
-      Selected date
-    </h3>
-
-    <div
-      class="remarkbox"
-      id="selectedRemark">
-      Tap a date to add attendance and a remark.
-    </div>
-
-  </div>
-
-</aside>
-
-</div>
-
-</div>
+</main>
 
 
 <!-- ATTENDANCE MODAL -->
 
-<div
-  class="modal"
-  id="modal">
+<div class="modal" id="modal">
 
-  <div class="dialog">
+  <div class="modal-box">
 
-    <h2 id="dialogDate"></h2>
+    <h2 id="modalDate">Attendance</h2>
 
-    <small>
-      Update attendance for this date
-    </small>
+    <div class="status-buttons">
 
-
-    <label>Status</label>
-
-    <div class="choices">
-
-      <button
-        class="choice"
-        data-status="present"
-        onclick="choose('present')">
+      <button onclick="selectStatus('present')" id="btn-present">
         ✓ Present
       </button>
 
-      <button
-        class="choice"
-        data-status="halfday"
-        onclick="choose('halfday')">
-        ◐ Half Day
+      <button onclick="selectStatus('half')" id="btn-half">
+        ½ Half Day
       </button>
 
-      <button
-        class="choice"
-        data-status="absent"
-        onclick="choose('absent')">
+      <button onclick="selectStatus('absent')" id="btn-absent">
         ✕ Absent
       </button>
 
-      <button
-        class="choice"
-        data-status="leave"
-        onclick="choose('leave')">
-        • Leave
+      <button onclick="selectStatus('leave')" id="btn-leave">
+        ★ Leave
       </button>
 
     </div>
 
-
-    <label>Remark</label>
-
     <textarea
-      id="remarkInput"
-      placeholder="e.g. Sick, attended class, festival holiday...">
-    </textarea>
+      id="remark"
+      class="remark"
+      placeholder="Add a remark..."
+    ></textarea>
 
+    <div class="modal-actions">
 
-    <div class="actions">
-
-      <button
-        class="btn secondary"
-        onclick="closeModal()">
+      <button class="cancel" onclick="closeModal()">
         Cancel
       </button>
 
-      <button
-        class="btn delete-btn"
-        onclick="deleteRecord()">
-        Delete
-      </button>
-
-      <button
-        class="btn"
-        onclick="save()">
+      <button class="save" onclick="saveAttendance()">
         Save
       </button>
 
@@ -1183,190 +859,147 @@ textarea{
 
 <script>
 
-let view = new Date();
-let selected = null;
-let chosen = '';
+/* =========================
+   SIDEBAR
+========================= */
 
-const key = d =>
-  d.toISOString().slice(0,10);
+function openSidebar(){
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
+}
 
-
-/* ATTENDANCE DATA */
-
-let data = JSON.parse(
-  localStorage.getItem('attendly') || '{}'
-);
-
-
-/* NAME */
-
-let savedName =
-  localStorage.getItem('attendly-name') || '';
-
-document.getElementById('nameInput').value =
-  savedName;
+function closeSidebar(){
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
+}
 
 
-/* PROFILE PHOTO */
+/* =========================
+   PROFILE
+========================= */
 
-let savedPhoto =
-  localStorage.getItem('attendly-photo') || '';
+let selectedPhoto = localStorage.getItem("attendly-photo") || "";
+
+function displayPhoto(){
+
+  const container =
+    document.getElementById("profileContainer");
+
+  if(selectedPhoto){
+
+    container.innerHTML =
+      '<img class="profile-picture" src="' +
+      selectedPhoto +
+      '" alt="Profile">';
+
+  }else{
+
+    container.innerHTML =
+      '<div class="profile-placeholder">👤</div>';
+
+  }
+}
 
 
 function changePhoto(event){
 
-  const file =
-    event.target.files[0];
+  const file = event.target.files[0];
 
-  if(!file)
-    return;
+  if(!file) return;
 
-  const reader =
-    new FileReader();
+  const reader = new FileReader();
 
   reader.onload = function(e){
 
-    savedPhoto = e.target.result;
-
-    localStorage.setItem(
-      'attendly-photo',
-      savedPhoto
-    );
+    selectedPhoto = e.target.result;
 
     displayPhoto();
 
   };
 
   reader.readAsDataURL(file);
-
-}
-
-
-function displayPhoto(){
-
-  const container =
-    document.getElementById(
-      'profileContainer'
-    );
-
-  if(savedPhoto){
-
-    container.innerHTML =
-      `<img
-        class="profile-picture"
-        src="${savedPhoto}"
-        alt="Profile">`;
-
-  }else{
-
-    container.innerHTML =
-      `<div class="profile-placeholder">
-        👤
-      </div>`;
-
-  }
-
 }
 
 
 function removePhoto(){
 
-  savedPhoto = '';
+  selectedPhoto = "";
 
-  localStorage.removeItem(
-    'attendly-photo'
-  );
+  localStorage.removeItem("attendly-photo");
 
-  document.getElementById(
-    'photoInput'
-  ).value = '';
+  document.getElementById("photoInput").value = "";
 
   displayPhoto();
-
 }
 
 
-displayPhoto();
-
-
-/* SIDEBAR */
-
-function openSidebar(){
-
-  document.getElementById('sidebar')
-    .classList.add('open');
-
-  document.getElementById('overlay')
-    .classList.add('show');
-
-}
-
-
-function closeSidebar(){
-
-  document.getElementById('sidebar')
-    .classList.remove('open');
-
-  document.getElementById('overlay')
-    .classList.remove('show');
-
-}
-
-
-/* NAME */
-
-function saveName(){
+function saveProfile(){
 
   const name =
-    document.getElementById(
-      'nameInput'
-    ).value;
+    document.getElementById("nameInput").value.trim();
 
-  localStorage.setItem(
-    'attendly-name',
-    name
-  );
+  localStorage.setItem("attendly-name", name);
 
+  if(selectedPhoto){
+    localStorage.setItem("attendly-photo", selectedPhoto);
+  }
+
+  document.getElementById("welcomeText").textContent =
+    name ? "Hello, " + name + " 👋" : "Attendance Calendar";
+
+  const message =
+    document.getElementById("savedMessage");
+
+  message.style.display = "block";
+
+  setTimeout(function(){
+    message.style.display = "none";
+  },2000);
 }
 
 
-/* DARK MODE */
+function loadProfile(){
+
+  const name =
+    localStorage.getItem("attendly-name") || "";
+
+  selectedPhoto =
+    localStorage.getItem("attendly-photo") || "";
+
+  document.getElementById("nameInput").value = name;
+
+  if(name){
+    document.getElementById("welcomeText").textContent =
+      "Hello, " + name + " 👋";
+  }
+
+  displayPhoto();
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
 
 let darkMode =
-  localStorage.getItem(
-    'attendly-dark'
-  ) === 'true';
+  localStorage.getItem("attendly-dark") === "true";
 
 
 function applyDarkMode(){
 
-  document.body.classList.toggle(
-    'dark',
-    darkMode
-  );
-
-  const icon =
-    document.getElementById(
-      'themeIcon'
-    );
-
-  const text =
-    document.getElementById(
-      'themeText'
-    );
+  document.body.classList.toggle("dark", darkMode);
 
   if(darkMode){
 
-    icon.textContent = '☀️';
-    text.textContent = 'Light Mode';
+    document.getElementById("themeIcon").textContent = "☀️";
+    document.getElementById("themeText").textContent = "Light Mode";
 
   }else{
 
-    icon.textContent = '🌙';
-    text.textContent = 'Dark Mode';
+    document.getElementById("themeIcon").textContent = "🌙";
+    document.getElementById("themeText").textContent = "Dark Mode";
 
   }
-
 }
 
 
@@ -1375,130 +1008,253 @@ function toggleDarkMode(){
   darkMode = !darkMode;
 
   localStorage.setItem(
-    'attendly-dark',
+    "attendly-dark",
     darkMode
   );
 
   applyDarkMode();
+}
+
+
+/* =========================
+   ATTENDANCE DATA
+========================= */
+
+let attendance =
+  JSON.parse(localStorage.getItem("attendly") || "{}");
+
+let currentDate = new Date();
+
+let selectedDate = "";
+
+let selectedStatus = "";
+
+
+/* =========================
+   CALENDAR
+========================= */
+
+function renderCalendar(){
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  const monthNames = [
+    "January","February","March","April",
+    "May","June","July","August",
+    "September","October","November","December"
+  ];
+
+  document.getElementById("monthTitle").textContent =
+    monthNames[month] + " " + year;
+
+  const daysContainer =
+    document.getElementById("days");
+
+  daysContainer.innerHTML = "";
+
+  const firstDay =
+    new Date(year,month,1).getDay();
+
+  const totalDays =
+    new Date(year,month+1,0).getDate();
+
+  for(let i=0;i<firstDay;i++){
+
+    const empty =
+      document.createElement("div");
+
+    daysContainer.appendChild(empty);
+  }
+
+  for(let day=1;day<=totalDays;day++){
+
+    const dateKey =
+      year + "-" +
+      String(month+1).padStart(2,"0") +
+      "-" +
+      String(day).padStart(2,"0");
+
+    const data = attendance[dateKey];
+
+    const dayElement =
+      document.createElement("div");
+
+    dayElement.className = "day";
+
+    if(data && data.status){
+      dayElement.classList.add(data.status);
+    }
+
+    let statusText = "";
+
+    if(data){
+
+      if(data.status === "present")
+        statusText = "Present";
+
+      if(data.status === "half")
+        statusText = "Half";
+
+      if(data.status === "absent")
+        statusText = "Absent";
+
+      if(data.status === "leave")
+        statusText = "Leave";
+    }
+
+    dayElement.innerHTML =
+      '<div class="day-number">' +
+      day +
+      '</div>' +
+      '<div class="day-status">' +
+      statusText +
+      '</div>';
+
+    dayElement.onclick = function(){
+      openAttendance(dateKey);
+    };
+
+    daysContainer.appendChild(dayElement);
+  }
+
+  updateStats();
+}
+
+
+/* =========================
+   ATTENDANCE MODAL
+========================= */
+
+function openAttendance(dateKey){
+
+  selectedDate = dateKey;
+
+  const data = attendance[dateKey];
+
+  selectedStatus =
+    data ? data.status : "";
+
+  document.getElementById("remark").value =
+    data ? (data.remark || "") : "";
+
+  document.getElementById("modalDate").textContent =
+    dateKey;
+
+  updateSelectedButtons();
+
+  document.getElementById("modal")
+    .classList.add("show");
+}
+
+
+function closeModal(){
+
+  document.getElementById("modal")
+    .classList.remove("show");
 
 }
 
 
-applyDarkMode();
+function selectStatus(status){
+
+  selectedStatus = status;
+
+  updateSelectedButtons();
+}
 
 
-/* CALENDAR */
+function updateSelectedButtons(){
 
-function render(){
+  const buttons = [
+    "present",
+    "half",
+    "absent",
+    "leave"
+  ];
 
-  const y =
-    view.getFullYear();
+  buttons.forEach(function(status){
 
-  const m =
-    view.getMonth();
+    document
+      .getElementById("btn-" + status)
+      .classList.toggle(
+        "selected",
+        selectedStatus === status
+      );
 
-
-  document.getElementById(
-    'month'
-  ).textContent =
-    view.toLocaleString(
-      'en',
-      {
-        month:'long',
-        year:'numeric'
-      }
-    );
-
-
-  const days =
-    document.getElementById(
-      'days'
-    );
-
-  days.innerHTML = '';
+  });
+}
 
 
-  const first =
-    (new Date(y,m,1).getDay()+6)%7;
+function saveAttendance(){
 
+  if(!selectedStatus){
 
-  const total =
-    new Date(
-      y,
-      m+1,
-      0
-    ).getDate();
+    delete attendance[selectedDate];
 
+  }else{
 
-  for(
-    let i=0;
-    i<first;
-    i++
-  ){
+    attendance[selectedDate] = {
 
-    days.innerHTML +=
-      '<div class="empty"></div>';
+      status:selectedStatus,
+
+      remark:
+        document.getElementById("remark").value.trim()
+
+    };
 
   }
 
+  localStorage.setItem(
+    "attendly",
+    JSON.stringify(attendance)
+  );
 
-  const today =
-    key(new Date());
+  closeModal();
 
-
-  for(
-    let n=1;
-    n<=total;
-    n++
-  ){
-
-    const d =
-      new Date(y,m,n);
+  renderCalendar();
+}
 
 
-    const k =
-      key(d);
+/* =========================
+   MONTH NAVIGATION
+========================= */
+
+function previousMonth(){
+
+  currentDate.setMonth(
+    currentDate.getMonth()-1
+  );
+
+  renderCalendar();
+}
 
 
-    const rec =
-      data[k] || {};
+function nextMonth(){
+
+  currentDate.setMonth(
+    currentDate.getMonth()+1
+  );
+
+  renderCalendar();
+}
 
 
-    const el =
-      document.createElement(
-        'div'
-      );
+function goToday(){
+
+  currentDate = new Date();
+
+  renderCalendar();
+}
 
 
-    el.className =
-      'day ' +
-      (rec.status || '') +
-      (k===today
-        ? ' today'
-        : '');
+/* =========================
+   STATISTICS
+========================= */
 
+function updateStats(){
 
-    let statusText = '';
-
-
-    if(rec.status){
-
-      if(rec.status === 'present')
-        statusText = 'Present';
-
-      if(rec.status === 'halfday')
-        statusText = 'Half Day';
-
-      if(rec.status === 'absent')
-        statusText = 'Absent';
-
-      if(rec.status === 'leave')
-        statusText = 'Leave';
-
-    }
-
-
-    el.innerHTML =
-      `<div class="num">${n}</div>` +
-      (
-        statusTe
+  let present = 0;
+  let half = 0;
+  let absent = 0;
+  l
