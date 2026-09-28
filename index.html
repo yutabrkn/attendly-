@@ -22,6 +22,17 @@
   --shadow:0 12px 35px rgba(30,40,80,.08);
 }
 
+/* DARK MODE */
+
+body.dark{
+  --bg:#10131a;
+  --card:#181c25;
+  --text:#f1f4fa;
+  --muted:#9ba5b7;
+  --line:#2a3040;
+  --shadow:0 12px 35px rgba(0,0,0,.25);
+}
+
 *{
   box-sizing:border-box;
 }
@@ -31,6 +42,7 @@ body{
   background:var(--bg);
   font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
   color:var(--text);
+  transition:.2s;
 }
 
 /* SIDEBAR */
@@ -41,7 +53,7 @@ body{
   top:0;
   bottom:0;
   width:280px;
-  background:#fff;
+  background:var(--card);
   border-right:1px solid var(--line);
   box-shadow:5px 0 25px rgba(20,30,60,.08);
   z-index:1000;
@@ -88,6 +100,7 @@ body{
 .close-side{
   border:0;
   background:#f1f2f6;
+  color:#222;
   width:34px;
   height:34px;
   border-radius:9px;
@@ -95,12 +108,73 @@ body{
   font-size:20px;
 }
 
+.dark .close-side{
+  background:#292e39;
+  color:white;
+}
+
+/* PROFILE */
+
 .profile{
   background:#f7f8fc;
   border:1px solid var(--line);
   border-radius:16px;
   padding:15px;
   margin-bottom:18px;
+}
+
+.dark .profile{
+  background:#202530;
+}
+
+.profile-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.profile-picture{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--primary);
+  background:#e9ebf4;
+}
+
+.profile-placeholder{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  background:var(--primary);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:27px;
+  font-weight:800;
+}
+
+.profile-buttons{
+  display:flex;
+  gap:7px;
+}
+
+.photo-btn{
+  flex:1;
+  border:0;
+  border-radius:9px;
+  padding:9px 5px;
+  background:var(--primary);
+  color:white;
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.remove-photo{
+  background:#fff0f0;
+  color:var(--red);
 }
 
 .profile-label{
@@ -117,19 +191,22 @@ body{
   padding:11px;
   font:inherit;
   outline:none;
-  background:#fff;
+  background:var(--card);
+  color:var(--text);
 }
 
 .name-input:focus{
   border-color:#8586ed;
 }
 
+/* STATS */
+
 .side-stat{
   padding:15px;
   border:1px solid var(--line);
   border-radius:15px;
   margin-bottom:10px;
-  background:#fff;
+  background:var(--card);
 }
 
 .side-stat span{
@@ -162,6 +239,59 @@ body{
   color:#657087;
   font-size:12px;
   line-height:1.5;
+}
+
+.dark .side-info{
+  background:#202530;
+  color:#aab3c3;
+}
+
+/* DARK MODE BUTTON */
+
+.theme-toggle{
+  margin-top:18px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+  font-weight:700;
+}
+
+.theme-left{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.toggle{
+  width:42px;
+  height:23px;
+  background:#d9dce5;
+  border-radius:20px;
+  padding:3px;
+  transition:.2s;
+}
+
+.toggle-circle{
+  width:17px;
+  height:17px;
+  background:white;
+  border-radius:50%;
+  transition:.2s;
+}
+
+.dark .toggle{
+  background:var(--primary);
+}
+
+.dark .toggle-circle{
+  transform:translateX(19px);
 }
 
 /* OVERLAY */
@@ -238,7 +368,7 @@ body{
 }
 
 .menu-btn{
-  background:#fff;
+  background:var(--card);
   color:var(--text);
   border:1px solid var(--line);
   font-size:20px;
@@ -280,7 +410,8 @@ body{
   width:36px;
   height:36px;
   border:1px solid var(--line);
-  background:#fff;
+  background:var(--card);
+  color:var(--text);
   border-radius:10px;
   cursor:pointer;
   font-size:18px;
@@ -308,7 +439,7 @@ body{
   padding:8px;
   cursor:pointer;
   position:relative;
-  background:#fff;
+  background:var(--card);
 }
 
 .day:hover{
@@ -379,6 +510,10 @@ body{
   background:#f7f8fc;
 }
 
+.dark .stat{
+  background:#202530;
+}
+
 .stat b{
   display:block;
   font-size:22px;
@@ -407,7 +542,7 @@ body{
   width:105px;
   height:105px;
   border-radius:50%;
-  background:#fff;
+  background:var(--card);
 }
 
 .percent strong{
@@ -452,6 +587,11 @@ body{
   font-size:13px;
 }
 
+.dark .remarkbox{
+  background:#202530;
+  color:#aab3c3;
+}
+
 /* MODAL */
 
 .modal{
@@ -470,7 +610,8 @@ body{
 }
 
 .dialog{
-  background:#fff;
+  background:var(--card);
+  color:var(--text);
   border-radius:18px;
   width:min(430px,100%);
   padding:20px;
@@ -501,7 +642,8 @@ label{
   padding:12px;
   border:1px solid var(--line);
   border-radius:10px;
-  background:#fff;
+  background:var(--card);
+  color:var(--text);
   cursor:pointer;
   font-weight:700;
   font-size:12px;
@@ -522,6 +664,8 @@ textarea{
   padding:11px;
   font:inherit;
   outline:none;
+  background:var(--card);
+  color:var(--text);
 }
 
 .actions{
@@ -534,6 +678,11 @@ textarea{
 .secondary{
   background:#f0f1f5;
   color:#333;
+}
+
+.dark .secondary{
+  background:#292e39;
+  color:white;
 }
 
 .delete-btn{
@@ -562,7 +711,7 @@ textarea{
     font-size:8px;
   }
 
-  .top .btn{
+  .top .btn:not(.menu-btn){
     display:none;
   }
 
@@ -615,20 +764,71 @@ textarea{
 <body>
 
 <!-- SIDEBAR -->
+
 <aside class="sidebar" id="sidebar">
 
   <div class="side-head">
+
     <div class="side-brand">
+
       <div class="side-logo">✓</div>
-      <div class="side-title">Attendly</div>
+
+      <div class="side-title">
+        Attendly
+      </div>
+
     </div>
 
-    <button class="close-side" onclick="closeSidebar()">×</button>
+    <button
+      class="close-side"
+      onclick="closeSidebar()">
+      ×
+    </button>
+
   </div>
+
+
+  <!-- PROFILE -->
 
   <div class="profile">
 
-    <div class="profile-label">YOUR NAME</div>
+    <div class="profile-top">
+
+      <div id="profileContainer">
+        <div class="profile-placeholder">
+          👤
+        </div>
+      </div>
+
+      <div class="profile-buttons">
+
+        <button
+          class="photo-btn"
+          onclick="document.getElementById('photoInput').click()">
+          🖼️ Photo
+        </button>
+
+        <button
+          class="photo-btn remove-photo"
+          onclick="removePhoto()">
+          Remove
+        </button>
+
+      </div>
+
+    </div>
+
+    <input
+      type="file"
+      id="photoInput"
+      accept="image/*"
+      style="display:none"
+      onchange="changePhoto(event)"
+    >
+
+    <div class="profile-label">
+      YOUR NAME
+    </div>
 
     <input
       class="name-input"
@@ -639,6 +839,9 @@ textarea{
     >
 
   </div>
+
+
+  <!-- STATS -->
 
   <div class="side-stat">
     <span>Total Months</span>
@@ -654,6 +857,25 @@ textarea{
     <span>Total Marked Days</span>
     <b id="overallMarked">0</b>
   </div>
+
+
+  <!-- DARK MODE -->
+
+  <button
+    class="theme-toggle"
+    onclick="toggleDarkMode()">
+
+    <div class="theme-left">
+      <span id="themeIcon">🌙</span>
+      <span id="themeText">Dark Mode</span>
+    </div>
+
+    <div class="toggle">
+      <div class="toggle-circle"></div>
+    </div>
+
+  </button>
+
 
   <div class="side-menu">
 
@@ -672,7 +894,12 @@ textarea{
 
 </aside>
 
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div
+  class="overlay"
+  id="overlay"
+  onclick="closeSidebar()">
+</div>
 
 
 <!-- MAIN APP -->
@@ -683,22 +910,34 @@ textarea{
 
   <div class="brand">
 
-    <div class="logo">✓</div>
+    <div class="logo">
+      ✓
+    </div>
 
     <div>
+
       <h1>Attendly</h1>
-      <p>Attendance & remarks calendar</p>
+
+      <p>
+        Attendance & remarks calendar
+      </p>
+
     </div>
 
   </div>
 
+
   <div class="header-buttons">
 
-    <button class="btn menu-btn" onclick="openSidebar()">
+    <button
+      class="btn menu-btn"
+      onclick="openSidebar()">
       ☰
     </button>
 
-    <button class="btn" onclick="markToday()">
+    <button
+      class="btn"
+      onclick="markToday()">
       ＋ Mark Today
     </button>
 
@@ -717,11 +956,15 @@ textarea{
 
     <div class="arrows">
 
-      <button class="iconbtn" onclick="moveMonth(-1)">
+      <button
+        class="iconbtn"
+        onclick="moveMonth(-1)">
         ‹
       </button>
 
-      <button class="iconbtn" onclick="moveMonth(1)">
+      <button
+        class="iconbtn"
+        onclick="moveMonth(1)">
         ›
       </button>
 
@@ -743,28 +986,43 @@ textarea{
   </div>
 
 
-  <div class="days" id="days"></div>
+  <div
+    class="days"
+    id="days">
+  </div>
 
 
   <div class="legend">
 
     <span>
-      <i class="dot" style="background:var(--green)"></i>
+      <i
+        class="dot"
+        style="background:var(--green)">
+      </i>
       Present
     </span>
 
     <span>
-      <i class="dot" style="background:var(--blue)"></i>
+      <i
+        class="dot"
+        style="background:var(--blue)">
+      </i>
       Half Day
     </span>
 
     <span>
-      <i class="dot" style="background:var(--red)"></i>
+      <i
+        class="dot"
+        style="background:var(--red)">
+      </i>
       Absent
     </span>
 
     <span>
-      <i class="dot" style="background:var(--yellow)"></i>
+      <i
+        class="dot"
+        style="background:var(--yellow)">
+      </i>
       Leave
     </span>
 
@@ -780,9 +1038,14 @@ textarea{
   </h3>
 
 
-  <div class="percent" id="ring" style="--pct:0%">
+  <div
+    class="percent"
+    id="ring"
+    style="--pct:0%">
 
-    <strong id="pct">0%</strong>
+    <strong id="pct">
+      0%
+    </strong>
 
   </div>
 
@@ -814,9 +1077,13 @@ textarea{
 
   <div class="remark">
 
-    <h3>Selected date</h3>
+    <h3>
+      Selected date
+    </h3>
 
-    <div class="remarkbox" id="selectedRemark">
+    <div
+      class="remarkbox"
+      id="selectedRemark">
       Tap a date to add attendance and a remark.
     </div>
 
@@ -825,12 +1092,15 @@ textarea{
 </aside>
 
 </div>
+
 </div>
 
 
 <!-- ATTENDANCE MODAL -->
 
-<div class="modal" id="modal">
+<div
+  class="modal"
+  id="modal">
 
   <div class="dialog">
 
@@ -848,32 +1118,28 @@ textarea{
       <button
         class="choice"
         data-status="present"
-        onclick="choose('present')"
-      >
+        onclick="choose('present')">
         ✓ Present
       </button>
 
       <button
         class="choice"
         data-status="halfday"
-        onclick="choose('halfday')"
-      >
+        onclick="choose('halfday')">
         ◐ Half Day
       </button>
 
       <button
         class="choice"
         data-status="absent"
-        onclick="choose('absent')"
-      >
+        onclick="choose('absent')">
         ✕ Absent
       </button>
 
       <button
         class="choice"
         data-status="leave"
-        onclick="choose('leave')"
-      >
+        onclick="choose('leave')">
         • Leave
       </button>
 
@@ -884,30 +1150,27 @@ textarea{
 
     <textarea
       id="remarkInput"
-      placeholder="e.g. Sick, attended class, festival holiday..."
-    ></textarea>
+      placeholder="e.g. Sick, attended class, festival holiday...">
+    </textarea>
 
 
     <div class="actions">
 
       <button
         class="btn secondary"
-        onclick="closeModal()"
-      >
+        onclick="closeModal()">
         Cancel
       </button>
 
       <button
         class="btn delete-btn"
-        onclick="deleteRecord()"
-      >
+        onclick="deleteRecord()">
         Delete
       </button>
 
       <button
         class="btn"
-        onclick="save()"
-      >
+        onclick="save()">
         Save
       </button>
 
@@ -924,16 +1187,106 @@ let view = new Date();
 let selected = null;
 let chosen = '';
 
-const key = d => d.toISOString().slice(0,10);
+const key = d =>
+  d.toISOString().slice(0,10);
+
+
+/* ATTENDANCE DATA */
 
 let data = JSON.parse(
   localStorage.getItem('attendly') || '{}'
 );
 
+
+/* NAME */
+
 let savedName =
   localStorage.getItem('attendly-name') || '';
 
-document.getElementById('nameInput').value = savedName;
+document.getElementById('nameInput').value =
+  savedName;
+
+
+/* PROFILE PHOTO */
+
+let savedPhoto =
+  localStorage.getItem('attendly-photo') || '';
+
+
+function changePhoto(event){
+
+  const file =
+    event.target.files[0];
+
+  if(!file)
+    return;
+
+  const reader =
+    new FileReader();
+
+  reader.onload = function(e){
+
+    savedPhoto = e.target.result;
+
+    localStorage.setItem(
+      'attendly-photo',
+      savedPhoto
+    );
+
+    displayPhoto();
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function displayPhoto(){
+
+  const container =
+    document.getElementById(
+      'profileContainer'
+    );
+
+  if(savedPhoto){
+
+    container.innerHTML =
+      `<img
+        class="profile-picture"
+        src="${savedPhoto}"
+        alt="Profile">`;
+
+  }else{
+
+    container.innerHTML =
+      `<div class="profile-placeholder">
+        👤
+      </div>`;
+
+  }
+
+}
+
+
+function removePhoto(){
+
+  savedPhoto = '';
+
+  localStorage.removeItem(
+    'attendly-photo'
+  );
+
+  document.getElementById(
+    'photoInput'
+  ).value = '';
+
+  displayPhoto();
+
+}
+
+
+displayPhoto();
 
 
 /* SIDEBAR */
@@ -947,6 +1300,7 @@ function openSidebar(){
     .classList.add('show');
 
 }
+
 
 function closeSidebar(){
 
@@ -964,7 +1318,9 @@ function closeSidebar(){
 function saveName(){
 
   const name =
-    document.getElementById('nameInput').value;
+    document.getElementById(
+      'nameInput'
+    ).value;
 
   localStorage.setItem(
     'attendly-name',
@@ -974,14 +1330,77 @@ function saveName(){
 }
 
 
+/* DARK MODE */
+
+let darkMode =
+  localStorage.getItem(
+    'attendly-dark'
+  ) === 'true';
+
+
+function applyDarkMode(){
+
+  document.body.classList.toggle(
+    'dark',
+    darkMode
+  );
+
+  const icon =
+    document.getElementById(
+      'themeIcon'
+    );
+
+  const text =
+    document.getElementById(
+      'themeText'
+    );
+
+  if(darkMode){
+
+    icon.textContent = '☀️';
+    text.textContent = 'Light Mode';
+
+  }else{
+
+    icon.textContent = '🌙';
+    text.textContent = 'Dark Mode';
+
+  }
+
+}
+
+
+function toggleDarkMode(){
+
+  darkMode = !darkMode;
+
+  localStorage.setItem(
+    'attendly-dark',
+    darkMode
+  );
+
+  applyDarkMode();
+
+}
+
+
+applyDarkMode();
+
+
 /* CALENDAR */
 
 function render(){
 
-  const y = view.getFullYear();
-  const m = view.getMonth();
+  const y =
+    view.getFullYear();
 
-  document.getElementById('month').textContent =
+  const m =
+    view.getMonth();
+
+
+  document.getElementById(
+    'month'
+  ).textContent =
     view.toLocaleString(
       'en',
       {
@@ -990,47 +1409,77 @@ function render(){
       }
     );
 
+
   const days =
-    document.getElementById('days');
+    document.getElementById(
+      'days'
+    );
 
   days.innerHTML = '';
+
 
   const first =
     (new Date(y,m,1).getDay()+6)%7;
 
-  const total =
-    new Date(y,m+1,0).getDate();
 
-  for(let i=0;i<first;i++){
+  const total =
+    new Date(
+      y,
+      m+1,
+      0
+    ).getDate();
+
+
+  for(
+    let i=0;
+    i<first;
+    i++
+  ){
 
     days.innerHTML +=
       '<div class="empty"></div>';
 
   }
 
+
   const today =
     key(new Date());
 
-  for(let n=1;n<=total;n++){
+
+  for(
+    let n=1;
+    n<=total;
+    n++
+  ){
 
     const d =
       new Date(y,m,n);
 
+
     const k =
       key(d);
+
 
     const rec =
       data[k] || {};
 
+
     const el =
-      document.createElement('div');
+      document.createElement(
+        'div'
+      );
+
 
     el.className =
       'day ' +
       (rec.status || '') +
-      (k===today ? ' today' : '');
+      (k===today
+        ? ' today'
+        : '');
+
 
     let statusText = '';
+
 
     if(rec.status){
 
@@ -1048,384 +1497,8 @@ function render(){
 
     }
 
+
     el.innerHTML =
       `<div class="num">${n}</div>` +
-      (statusText
-        ? `<div class="status">${statusText}</div>`
-        : '');
-
-    el.onclick =
-      () => openModal(k);
-
-    days.appendChild(el);
-
-  }
-
-  stats();
-
-  updateOverallStats();
-
-}
-
-
-/* MONTHLY STATS */
-
-function stats(){
-
-  const y =
-    view.getFullYear();
-
-  const m =
-    view.getMonth();
-
-  const prefix =
-    `${y}-${String(m+1).padStart(2,'0')}`;
-
-  let p = 0;
-  let h = 0;
-  let a = 0;
-  let l = 0;
-
-  Object.entries(data).forEach(
-    ([k,v]) => {
-
-      if(k.startsWith(prefix)){
-
-        if(v.status === 'present')
-          p++;
-
-        if(v.status === 'halfday')
-          h++;
-
-        if(v.status === 'absent')
-          a++;
-
-        if(v.status === 'leave')
-          l++;
-
-      }
-
-    }
-  );
-
-  /*
-    Attendance calculation:
-
-    Present = 1
-    Half Day = 0.5
-    Absent = 0
-
-    Leave is excluded.
-  */
-
-  const attendanceDays =
-    p + (h * 0.5);
-
-  const countedDays =
-    p + h + a;
-
-  const pct =
-    countedDays
-      ? Math.round(
-          attendanceDays /
-          countedDays *
-          100
-        )
-      : 0;
-
-  document.getElementById('present')
-    .textContent = p;
-
-  document.getElementById('halfdayCount')
-    .textContent = h;
-
-  document.getElementById('absent')
-    .textContent = a;
-
-  document.getElementById('leave')
-    .textContent = l;
-
-  document.getElementById('pct')
-    .textContent = pct + '%';
-
-  document.getElementById('ring')
-    .style.setProperty(
-      '--pct',
-      pct + '%'
-    );
-
-}
-
-
-/* OVERALL SIDEBAR STATS */
-
-function updateOverallStats(){
-
-  const months = new Set();
-
-  let p = 0;
-  let h = 0;
-  let a = 0;
-
-  Object.entries(data).forEach(
-    ([k,v]) => {
-
-      if(!v || !v.status)
-        return;
-
-      months.add(k.slice(0,7));
-
-      if(v.status === 'present')
-        p++;
-
-      if(v.status === 'halfday')
-        h++;
-
-      if(v.status === 'absent')
-        a++;
-
-    }
-  );
-
-  const attendance =
-    p + (h * 0.5);
-
-  const counted =
-    p + h + a;
-
-  const overall =
-    counted
-      ? Math.round(
-          attendance /
-          counted *
-          100
-        )
-      : 0;
-
-  document.getElementById('totalMonths')
-    .textContent = months.size;
-
-  document.getElementById('overallPct')
-    .textContent = overall + '%';
-
-  document.getElementById('overallMarked')
-    .textContent = counted;
-
-}
-
-
-/* MONTH NAVIGATION */
-
-function moveMonth(n){
-
-  view =
-    new Date(
-      view.getFullYear(),
-      view.getMonth()+n,
-      1
-    );
-
-  render();
-
-}
-
-
-/* OPEN MODAL */
-
-function openModal(k){
-
-  selected = k;
-
-  const d =
-    new Date(k+'T00:00:00');
-
-  document.getElementById(
-    'dialogDate'
-  ).textContent =
-    d.toLocaleDateString(
-      'en',
-      {
-        weekday:'long',
-        day:'numeric',
-        month:'long',
-        year:'numeric'
-      }
-    );
-
-  const rec =
-    data[k] || {};
-
-  chosen =
-    rec.status || '';
-
-  document.getElementById(
-    'remarkInput'
-  ).value =
-    rec.remark || '';
-
-  updateChoices();
-
-  document.getElementById(
-    'modal'
-  ).classList.add('show');
-
-  document.getElementById(
-    'selectedRemark'
-  ).textContent =
-    rec.remark ||
-    'No remark for this date.';
-
-}
-
-
-/* CHOOSE STATUS */
-
-function choose(s){
-
-  chosen = s;
-
-  updateChoices();
-
-}
-
-
-function updateChoices(){
-
-  document
-    .querySelectorAll('.choice')
-    .forEach(
-      b =>
-        b.classList.toggle(
-          'active',
-          b.dataset.status === chosen
-        )
-    );
-
-}
-
-
-/* SAVE */
-
-function save(){
-
-  const remark =
-    document
-      .getElementById('remarkInput')
-      .value
-      .trim();
-
-  if(!chosen && !remark){
-
-    delete data[selected];
-
-  }else{
-
-    data[selected] = {
-
-      status: chosen,
-
-      remark: remark
-
-    };
-
-  }
-
-  localStorage.setItem(
-    'attendly',
-    JSON.stringify(data)
-  );
-
-  closeModal();
-
-  render();
-
-  document.getElementById(
-    'selectedRemark'
-  ).textContent =
-    data[selected]?.remark ||
-    'No remark for this date.';
-
-}
-
-
-/* DELETE */
-
-function deleteRecord(){
-
-  if(selected){
-
-    delete data[selected];
-
-    localStorage.setItem(
-      'attendly',
-      JSON.stringify(data)
-    );
-
-  }
-
-  chosen = '';
-
-  closeModal();
-
-  render();
-
-  document.getElementById(
-    'selectedRemark'
-  ).textContent =
-    'No remark for this date.';
-
-}
-
-
-/* CLOSE MODAL */
-
-function closeModal(){
-
-  document.getElementById(
-    'modal'
-  ).classList.remove('show');
-
-}
-
-
-/* TODAY */
-
-function markToday(){
-
-  view = new Date();
-
-  render();
-
-  openModal(
-    key(new Date())
-  );
-
-}
-
-
-/* INITIAL LOAD */
-
-render();
-
-
-/* SERVICE WORKER */
-
-if("serviceWorker" in navigator){
-
-  window.addEventListener(
-    "load",
-    () => {
-
-      navigator.serviceWorker.register(
-        "./sw.js"
-      );
-
-    }
-  );
-
-}
-
-</script>
-
-</body>
-  </htm
+      (
+        statusTe
