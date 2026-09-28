@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Attendly</title>
 
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#2196F3">
+<link rel="manifest"
+href="./manifest.json">
+
+<meta name="theme-color"
+content="#2196F3">
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -481,8 +489,7 @@ body.dark .leave{
   background:#292044;
   border-color:#51418a;
 }
-
-/* LEGEND */
+  /* LEGEND */
 
 .legend{
   display:flex;
@@ -505,10 +512,22 @@ body.dark .leave{
   border-radius:50%;
 }
 
-.dot.present{background:var(--green);}
-.dot.half{background:var(--orange);}
-.dot.absent{background:var(--red);}
-.dot.leave{background:var(--purple);}
+.dot.present{
+  background:var(--green);
+}
+
+.dot.half{
+  background:var(--orange);
+}
+
+.dot.absent{
+  background:var(--red);
+}
+
+.dot.leave{
+  background:var(--purple);
+}
+
 
 /* MODAL */
 
@@ -598,6 +617,7 @@ body.dark .leave{
   color:white;
 }
 
+
 /* MOBILE */
 
 @media(max-width:600px){
@@ -617,16 +637,26 @@ body.dark .leave{
   .day{
     min-height:44px;
   }
+
 }
+
+
+/* END OF CSS */
+
 </style>
+
 </head>
 
 <body>
 
+
 <!-- SIDEBAR OVERLAY -->
+
 <div id="overlay" class="overlay"></div>
 
+
 <!-- SIDEBAR -->
+
 <aside id="sidebar" class="sidebar">
 
   <div class="side-header">
@@ -635,7 +665,11 @@ body.dark .leave{
       Attendly
     </div>
 
-    <button id="closeButton" class="close-btn">
+    <button
+      id="closeButton"
+      class="close-btn"
+      type="button"
+    >
       ×
     </button>
 
@@ -648,17 +682,31 @@ body.dark .leave{
 
     <div class="profile-top">
 
-      <div id="profileContainer" class="profile-container">
-        <div class="profile-placeholder">👤</div>
+      <div
+        id="profileContainer"
+        class="profile-container"
+      >
+        <div class="profile-placeholder">
+          👤
+        </div>
       </div>
+
 
       <div class="photo-buttons">
 
-        <button id="photoButton" class="photo-btn">
+        <button
+          id="photoButton"
+          class="photo-btn"
+          type="button"
+        >
           🖼️ Choose Photo
         </button>
 
-        <button id="removePhotoButton" class="photo-btn remove-btn">
+        <button
+          id="removePhotoButton"
+          class="photo-btn remove-btn"
+          type="button"
+        >
           Remove
         </button>
 
@@ -688,12 +736,19 @@ body.dark .leave{
     >
 
 
-    <button id="saveProfileButton" class="save-profile">
+    <button
+      id="saveProfileButton"
+      class="save-profile"
+      type="button"
+    >
       💾 Save Profile
     </button>
 
 
-    <div id="savedMessage" class="saved-message">
+    <div
+      id="savedMessage"
+      class="saved-message"
+    >
       ✓ Profile saved
     </div>
 
@@ -702,17 +757,24 @@ body.dark .leave{
 
   <!-- DARK MODE -->
 
-  <button id="themeButton" class="theme-toggle">
+  <button
+    id="themeButton"
+    class="theme-toggle"
+    type="button"
+  >
 
     <div class="theme-left">
 
-      <span id="themeIcon">🌙</span>
+      <span id="themeIcon">
+        🌙
+      </span>
 
       <span id="themeText">
         Dark Mode
       </span>
 
     </div>
+
 
     <div class="toggle">
 
@@ -731,7 +793,10 @@ body.dark .leave{
       TOTAL MONTHS
     </div>
 
-    <div id="sideMonths" class="stat-value">
+    <div
+      id="sideMonths"
+      class="stat-value"
+    >
       0
     </div>
 
@@ -744,7 +809,10 @@ body.dark .leave{
       OVERALL ATTENDANCE
     </div>
 
-    <div id="sideAttendance" class="stat-value">
+    <div
+      id="sideAttendance"
+      class="stat-value"
+    >
       0%
     </div>
 
@@ -757,7 +825,10 @@ body.dark .leave{
       TOTAL MARKED DAYS
     </div>
 
-    <div id="sideMarked" class="stat-value">
+    <div
+      id="sideMarked"
+      class="stat-value"
+    >
       0
     </div>
 
@@ -770,9 +841,14 @@ body.dark .leave{
 
 <header class="topbar">
 
-  <button id="menuButton" class="menu-btn">
+  <button
+    id="menuButton"
+    class="menu-btn"
+    type="button"
+  >
     ☰
   </button>
+
 
   <div class="logo">
     Attendly
@@ -808,7 +884,10 @@ body.dark .leave{
         PRESENT
       </div>
 
-      <div id="presentCount" class="card-number">
+      <div
+        id="presentCount"
+        class="card-number"
+      >
         0
       </div>
 
@@ -821,7 +900,10 @@ body.dark .leave{
         HALF DAY
       </div>
 
-      <div id="halfCount" class="card-number">
+      <div
+        id="halfCount"
+        class="card-number"
+      >
         0
       </div>
 
@@ -834,7 +916,10 @@ body.dark .leave{
         ABSENT
       </div>
 
-      <div id="absentCount" class="card-number">
+      <div
+        id="absentCount"
+        class="card-number"
+      >
         0
       </div>
 
@@ -849,20 +934,33 @@ body.dark .leave{
 
     <div class="calendar-header">
 
-      <div id="monthTitle" class="month-title">
+      <div
+        id="monthTitle"
+        class="month-title"
+      >
       </div>
+
 
       <div class="nav-buttons">
 
-        <button id="previousButton">
+        <button
+          id="previousButton"
+          type="button"
+        >
           ‹
         </button>
 
-        <button id="todayButton">
+        <button
+          id="todayButton"
+          type="button"
+        >
           ●
         </button>
 
-        <button id="nextButton">
+        <button
+          id="nextButton"
+          type="button"
+        >
           ›
         </button>
 
@@ -884,7 +982,10 @@ body.dark .leave{
     </div>
 
 
-    <div id="days" class="days">
+    <div
+      id="days"
+      class="days"
+    >
     </div>
 
 
@@ -915,8 +1016,6 @@ body.dark .leave{
   </section>
 
 </main>
-
-
 <!-- ATTENDANCE MODAL -->
 
 <div id="modal" class="modal">
@@ -927,27 +1026,25 @@ body.dark .leave{
       Attendance
     </h2>
 
-
     <div class="status-buttons">
 
-      <button id="btn-present">
+      <button id="btn-present" type="button">
         ✓ Present
       </button>
 
-      <button id="btn-half">
+      <button id="btn-half" type="button">
         ½ Half Day
       </button>
 
-      <button id="btn-absent">
+      <button id="btn-absent" type="button">
         ✕ Absent
       </button>
 
-      <button id="btn-leave">
+      <button id="btn-leave" type="button">
         ★ Leave
       </button>
 
     </div>
-
 
     <textarea
       id="remark"
@@ -955,14 +1052,21 @@ body.dark .leave{
       placeholder="Add a remark..."
     ></textarea>
 
-
     <div class="modal-actions">
 
-      <button id="cancelButton" class="cancel">
+      <button
+        id="cancelButton"
+        class="cancel"
+        type="button"
+      >
         Cancel
       </button>
 
-      <button id="saveButton" class="save">
+      <button
+        id="saveButton"
+        class="save"
+        type="button"
+      >
         Save
       </button>
 
@@ -981,13 +1085,16 @@ body.dark .leave{
 
 let attendance = {};
 
-try{
-  attendance =
-    JSON.parse(
-      localStorage.getItem("attendly") || "{}"
-    );
-}catch(error){
+try {
+
+  attendance = JSON.parse(
+    localStorage.getItem("attendly") || "{}"
+  );
+
+} catch(error) {
+
   attendance = {};
+
 }
 
 let selectedDate = "";
@@ -1015,7 +1122,6 @@ const closeButton =
 function openSidebar(){
 
   sidebar.classList.add("open");
-
   overlay.classList.add("show");
 
 }
@@ -1024,27 +1130,22 @@ function openSidebar(){
 function closeSidebar(){
 
   sidebar.classList.remove("open");
-
   overlay.classList.remove("show");
 
 }
 
-
-/* IMPORTANT:
-   Sidebar buttons use addEventListener
-   instead of inline onclick. */
 
 menuButton.addEventListener(
   "click",
   openSidebar
 );
 
-  alert("MENU WORKS");
-  
+
 closeButton.addEventListener(
   "click",
   closeSidebar
 );
+
 
 overlay.addEventListener(
   "click",
@@ -1091,11 +1192,14 @@ function displayPhoto(){
 
 document
   .getElementById("photoButton")
-  .addEventListener("click",function(){
+  .addEventListener(
+    "click",
+    function(){
 
-    photoInput.click();
+      photoInput.click();
 
-  });
+    }
+  );
 
 
 photoInput.addEventListener(
@@ -1110,14 +1214,15 @@ photoInput.addEventListener(
     const reader =
       new FileReader();
 
-    reader.onload = function(event){
+    reader.onload =
+      function(event){
 
-      selectedPhoto =
-        event.target.result;
+        selectedPhoto =
+          event.target.result;
 
-      displayPhoto();
+        displayPhoto();
 
-    };
+      };
 
     reader.readAsDataURL(file);
 
@@ -1127,56 +1232,67 @@ photoInput.addEventListener(
 
 document
   .getElementById("removePhotoButton")
-  .addEventListener("click",function(){
+  .addEventListener(
+    "click",
+    function(){
 
-    selectedPhoto = "";
+      selectedPhoto = "";
 
-    localStorage.removeItem(
-      "attendly-photo"
-    );
+      localStorage.removeItem(
+        "attendly-photo"
+      );
 
-    photoInput.value = "";
+      photoInput.value = "";
 
-    displayPhoto();
+      displayPhoto();
 
-  });
+    }
+  );
 
 
 document
   .getElementById("saveProfileButton")
-  .addEventListener("click",function(){
+  .addEventListener(
+    "click",
+    function(){
 
-    const name =
-      nameInput.value.trim();
-
-    localStorage.setItem(
-      "attendly-name",
-      name
-    );
-
-    if(selectedPhoto){
+      const name =
+        nameInput.value.trim();
 
       localStorage.setItem(
-        "attendly-photo",
-        selectedPhoto
+        "attendly-name",
+        name
+      );
+
+      if(selectedPhoto){
+
+        localStorage.setItem(
+          "attendly-photo",
+          selectedPhoto
+        );
+
+      }
+
+      updateWelcome();
+
+      const message =
+        document.getElementById(
+          "savedMessage"
+        );
+
+      message.style.display = "block";
+
+      setTimeout(
+        function(){
+
+          message.style.display = "none";
+
+        },
+        2000
       );
 
     }
-
-    updateWelcome();
-
-    const message =
-      document.getElementById("savedMessage");
-
-    message.style.display = "block";
-
-    setTimeout(function(){
-
-      message.style.display = "none";
-
-    },2000);
-
-  });
+  );
 
 
 function updateWelcome(){
@@ -1344,7 +1460,11 @@ function renderCalendar(){
     ).getDate();
 
 
-  for(let i=0;i<firstDay;i++){
+  for(
+    let i = 0;
+    i < firstDay;
+    i++
+  ){
 
     const empty =
       document.createElement("div");
@@ -1354,7 +1474,11 @@ function renderCalendar(){
   }
 
 
-  for(let day=1;day<=totalDays;day++){
+  for(
+    let day = 1;
+    day <= totalDays;
+    day++
+  ){
 
     const dateKey =
       year +
@@ -1436,38 +1560,50 @@ function renderCalendar(){
    ATTENDANCE MODAL
 ========================= */
 
-
 function openAttendance(dateKey){
 
   selectedDate = dateKey;
 
-  const data = attendance[dateKey];
+  const data =
+    attendance[dateKey];
 
-  selectedStatus = data ? data.status : "";
+  selectedStatus =
+    data ? data.status : "";
 
-  document.getElementById("remark").value =
+  document.getElementById(
+    "remark"
+  ).value =
     data ? (data.remark || "") : "";
 
-  document.getElementById("modalDate").textContent =
+  document.getElementById(
+    "modalDate"
+  ).textContent =
     dateKey;
 
   updateSelectedButtons();
 
-  document.getElementById("modal").classList.add("show");
+  document
+    .getElementById("modal")
+    .classList.add("show");
+
 }
 
 
 function closeModal(){
 
-  document.getElementById("modal").classList.remove("show");
+  document
+    .getElementById("modal")
+    .classList.remove("show");
 
 }
 
 
-document.getElementById("cancelButton").addEventListener(
-  "click",
-  closeModal
-);
+document
+  .getElementById("cancelButton")
+  .addEventListener(
+    "click",
+    closeModal
+  );
 
 
 function selectStatus(status){
@@ -1481,125 +1617,171 @@ function selectStatus(status){
 
 function updateSelectedButtons(){
 
-  ["present","half","absent","leave"].forEach(function(status){
+  [
+    "present",
+    "half",
+    "absent",
+    "leave"
+  ].forEach(
+    function(status){
 
-    document
-      .getElementById("btn-" + status)
-      .classList.toggle(
-        "selected",
-        selectedStatus === status
-      );
+      document
+        .getElementById(
+          "btn-" + status
+        )
+        .classList.toggle(
+          "selected",
+          selectedStatus === status
+        );
 
-  });
+    }
+  );
 
 }
 
 
-document.getElementById("btn-present").addEventListener(
-  "click",
-  function(){
-    selectStatus("present");
-  }
-);
+document
+  .getElementById("btn-present")
+  .addEventListener(
+    "click",
+    function(){
 
-
-document.getElementById("btn-half").addEventListener(
-  "click",
-  function(){
-    selectStatus("half");
-  }
-);
-
-
-document.getElementById("btn-absent").addEventListener(
-  "click",
-  function(){
-    selectStatus("absent");
-  }
-);
-
-
-document.getElementById("btn-leave").addEventListener(
-  "click",
-  function(){
-    selectStatus("leave");
-  }
-);
-
-
-document.getElementById("saveButton").addEventListener(
-  "click",
-  function(){
-
-    if(!selectedStatus){
-
-      delete attendance[selectedDate];
-
-    }else{
-
-      attendance[selectedDate] = {
-        status: selectedStatus,
-        remark: document.getElementById("remark").value.trim()
-      };
+      selectStatus("present");
 
     }
-
-    localStorage.setItem(
-      "attendly",
-      JSON.stringify(attendance)
-    );
-
-    closeModal();
-
-    renderCalendar();
-
-  }
-);
+  );
 
 
-/* MONTH BUTTONS */
+document
+  .getElementById("btn-half")
+  .addEventListener(
+    "click",
+    function(){
 
-document.getElementById("previousButton").addEventListener(
-  "click",
-  function(){
+      selectStatus("half");
 
-    currentDate.setMonth(
-      currentDate.getMonth() - 1
-    );
-
-    renderCalendar();
-
-  }
-);
+    }
+  );
 
 
-document.getElementById("nextButton").addEventListener(
-  "click",
-  function(){
+document
+  .getElementById("btn-absent")
+  .addEventListener(
+    "click",
+    function(){
 
-    currentDate.setMonth(
-      currentDate.getMonth() + 1
-    );
+      selectStatus("absent");
 
-    renderCalendar();
-
-  }
-);
+    }
+  );
 
 
-document.getElementById("todayButton").addEventListener(
-  "click",
-  function(){
+document
+  .getElementById("btn-leave")
+  .addEventListener(
+    "click",
+    function(){
 
-    currentDate = new Date();
+      selectStatus("leave");
 
-    renderCalendar();
-
-  }
-);
+    }
+  );
 
 
-/* STATISTICS */
+document
+  .getElementById("saveButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      if(!selectedStatus){
+
+        delete attendance[selectedDate];
+
+      }else{
+
+        attendance[selectedDate] = {
+
+          status: selectedStatus,
+
+          remark:
+            document
+              .getElementById("remark")
+              .value
+              .trim()
+
+        };
+
+      }
+
+
+      localStorage.setItem(
+        "attendly",
+        JSON.stringify(attendance)
+      );
+
+
+      closeModal();
+
+      renderCalendar();
+
+    }
+  );
+
+
+/* =========================
+   MONTH BUTTONS
+========================= */
+
+document
+  .getElementById("previousButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      currentDate.setMonth(
+        currentDate.getMonth() - 1
+      );
+
+      renderCalendar();
+
+    }
+  );
+
+
+document
+  .getElementById("nextButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      currentDate.setMonth(
+        currentDate.getMonth() + 1
+      );
+
+      renderCalendar();
+
+    }
+  );
+
+
+document
+  .getElementById("todayButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      currentDate = new Date();
+
+      renderCalendar();
+
+    }
+  );
+
+
+/* =========================
+   STATISTICS
+========================= */
 
 function updateStats(){
 
@@ -1608,73 +1790,124 @@ function updateStats(){
   let absent = 0;
   let marked = 0;
 
-  Object.keys(attendance).forEach(function(date){
 
-    const data = attendance[date];
+  Object.keys(attendance)
+    .forEach(
+      function(date){
 
-    if(!data) return;
+        const data =
+          attendance[date];
 
-    if(data.status === "present"){
-      present++;
-      marked++;
-    }
-
-    if(data.status === "half"){
-      half++;
-      marked++;
-    }
-
-    if(data.status === "absent"){
-      absent++;
-      marked++;
-    }
-
-    if(data.status === "leave"){
-      marked++;
-    }
-
-  });
+        if(!data) return;
 
 
-  const total = present + half + absent;
+        if(data.status === "present"){
+
+          present++;
+          marked++;
+
+        }
+
+
+        if(data.status === "half"){
+
+          half++;
+          marked++;
+
+        }
+
+
+        if(data.status === "absent"){
+
+          absent++;
+          marked++;
+
+        }
+
+
+        if(data.status === "leave"){
+
+          marked++;
+
+        }
+
+      }
+    );
+
+
+  const total =
+    present +
+    half +
+    absent;
+
 
   const percentage =
     total > 0
-      ? ((present + half * 0.5) / total * 100).toFixed(1)
+      ? (
+          (present + half * 0.5)
+          / total
+          * 100
+        ).toFixed(1)
       : 0;
 
 
-  document.getElementById("presentCount").textContent =
-    present;
-
-  document.getElementById("halfCount").textContent =
-    half;
-
-  document.getElementById("absentCount").textContent =
-    absent;
-
-  document.getElementById("sideMarked").textContent =
-    marked;
-
-  document.getElementById("sideAttendance").textContent =
-    percentage + "%";
+  document
+    .getElementById("presentCount")
+    .textContent =
+      present;
 
 
-  const months = new Set();
+  document
+    .getElementById("halfCount")
+    .textContent =
+      half;
 
-  Object.keys(attendance).forEach(function(date){
 
-    months.add(date.substring(0,7));
+  document
+    .getElementById("absentCount")
+    .textContent =
+      absent;
 
-  });
 
-  document.getElementById("sideMonths").textContent =
-    months.size;
+  document
+    .getElementById("sideMarked")
+    .textContent =
+      marked;
+
+
+  document
+    .getElementById("sideAttendance")
+    .textContent =
+      percentage + "%";
+
+
+  const months =
+    new Set();
+
+
+  Object.keys(attendance)
+    .forEach(
+      function(date){
+
+        months.add(
+          date.substring(0,7)
+        );
+
+      }
+    );
+
+
+  document
+    .getElementById("sideMonths")
+    .textContent =
+      months.size;
 
 }
 
 
-/* START */
+/* =========================
+   START
+========================= */
 
 loadProfile();
 
@@ -1683,23 +1916,37 @@ applyDarkMode();
 renderCalendar();
 
 
-/* SERVICE WORKER */
+/* =========================
+   SERVICE WORKER
+========================= */
 
 if("serviceWorker" in navigator){
 
-  window.addEventListener("load", function(){
+  window.addEventListener(
+    "load",
+    function(){
 
-    navigator.serviceWorker.register("./sw.js")
-      .catch(function(error){
+      navigator
+        .serviceWorker
+        .register("./sw.js")
+        .catch(
+          function(error){
 
-        console.log(
-          "Service worker error:",
-          error
+            console.log(
+              "Service worker error:",
+              error
+            );
+
+          }
         );
 
-      });
-
-  });
+    }
+  );
 
 }
-  
+
+</script>
+
+</body>
+
+</html>
